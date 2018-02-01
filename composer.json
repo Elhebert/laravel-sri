@@ -1,7 +1,6 @@
 {
     "name": "elhebert/laravel-sri",
     "description": "Subresource Integrity hash generator for laravel",
-    "version": "1.0.0",
     "keywords": [
         "sri",
         "laravel-sri",
