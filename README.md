@@ -35,7 +35,11 @@ To only get a hash use `Sri::hash`
 >
 ```
 
-Or you can use `Sri::html` to generate the integrity and the crossorigin attribute
+Or you can also generate the HTML for the `integrity` and the `crossorigin` attributes:
+
+`Sri::html` accepts two parameters:
+- first one is the path;
+- second one (optional, default is `false`) tells if you want to pass the credentials when fetching the resource.
 
 ```html
 <link

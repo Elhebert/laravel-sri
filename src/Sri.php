@@ -8,7 +8,7 @@ class Sri
     {
     }
 
-    public function html(string $path): string
+    public function html(string $path, bool $with_credentials = false): string
     {
         try {
             $integrity = $this->hash($path);
@@ -16,7 +16,10 @@ class Sri
             return '';
         }
 
-        return "integrity={$integrity} crossorigin=anonymous";
+        $crossorigin = $with_credentials ? '=use-credentials' : '';
+
+        return "integrity={$integrity} crossorigin{$crossorigin}";
+    }
     }
 
     public function hash(string $path): string
