@@ -1,0 +1,42 @@
+{
+    "name": "elhebert/laravel-sri",
+    "description": "Subresource Integrity hash generator for laravel",
+    "version": "1.0.0",
+    "keywords": [
+        "sri",
+        "laravel-sri",
+        "subresource integrity"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dieter Stinglhamber",
+            "email": "elhebert@hotmail.be"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "illuminate/support": "^5.5"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "Elhebert\\SubresourceIntegrity\\": "src"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Elhebert\\SubresourceIntegrity\\SriServiceProvider"
+            ],
+            "aliases": {
+                "Sri": "Elhebert\\SubresourceIntegrity\\SriFacade"
+            }
+        }
+    }
+}
