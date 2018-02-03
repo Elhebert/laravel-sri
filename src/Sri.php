@@ -21,11 +21,6 @@ class Sri
         return "integrity={$integrity} crossorigin{$crossorigin}";
     }
 
-    public function withCredentials(string $path): string
-    {
-        return $this->html($path, true);
-    }
-
     public function hash(string $path): string
     {
         if (starts_with($path, 'http')) {
