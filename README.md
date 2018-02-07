@@ -1,6 +1,8 @@
 # Laravel Subresource Integrity
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![StyleCI](https://styleci.io/repos/119791861/shield?branch=master)](https://styleci.io/repos/119791861)
+[![TravisCI](https://travis-ci.org/Elhebert/laravel-sri.svg?branch=master)](https://travis-ci.org/Elhebert/laravel-sri)
 
 Small package that'll generate the integrity hashes for your style and script file.
 
