@@ -24,10 +24,10 @@ class Sri
         if (starts_with($path, 'http')) {
             $fileContent = file_get_contents($path);
         } else {
-            $fileContent = file_get_contents(config('subresource-integrity.base_path') . "/{$path}");
+            $fileContent = file_get_contents(config('subresource-integrity.base_path')."/{$path}");
         }
 
-        if (!$fileContent) {
+        if (! $fileContent) {
             throw new \Exception('file not found');
         }
 
