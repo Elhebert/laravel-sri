@@ -37,7 +37,9 @@ To only get a hash use `Sri::hash`
 >
 ```
 
-Or you can use `Sri::html` to generate the integrity and the crossorigin attribute
+To generate the HTML for the `integrity` and the `crossorigin` attributes, use `Sri::html`. It accepts two parameters:
+- first one is the path;
+- second one (default is `false`) tells if you want to pass the credentials when fetching the resource.
 
 ```html
 <link
@@ -46,6 +48,10 @@ Or you can use `Sri::html` to generate the integrity and the crossorigin attribu
     {{ Sri::html('css/app.css') }}
 >
 ```
+
+So:
+- `{{ Sri::html('css/app.css') }}` generates `integrity="sha-xxx…" crossorigin`;
+- `{{ Sri::html('css/app.css', true) }}` generates `integrity="sha-xxx…" crossorigin="use-credentials"`.
 
 This package also work for remote resources. Be careful that resources like Google Fonts [won't work](https://github.com/google/fonts/issues/473).
 
