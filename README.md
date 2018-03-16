@@ -6,6 +6,13 @@
 
 Small laravel 5.5+ package that'll generate the integrity hashes for your style and script files.
 
+## About Subresources Integrity
+
+From [MDN](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity):
+> Subresource Integrity (SRI) is a security feature that enables browsers to verify that files they fetch (for example, from a CDN) are delivered without unexpected manipulation. It works by allowing you to provide a cryptographic hash that a fetched file must match.
+
+Troy Hunt wrote an article speaking on the subject, you can read it [here](https://www.troyhunt.com/protecting-your-embedded-content-with-subresource-integrity-sri/)
+
 ## Installation
 
 ```sh
