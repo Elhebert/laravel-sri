@@ -9,7 +9,7 @@ class SriServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(Sri::class, function () {
-            return new Sri();
+            return new Sri(config('sri.algorithm'));
         });
 
         $this->app->alias(Sri::class, 'sri');
@@ -18,6 +18,42 @@ class SriServiceProvider extends ServiceProvider
             __DIR__.'/../config/subresource-integrity.php',
             'subresource-integrity'
         );
+
+        Blade::directive('mixSri', function (string $path, bool $crossOrigin = false) {
+            if (starts_with($path, ['http', 'https', '//'])) {
+                $href = $path;
+            } else {
+                $href = mix($path);
+            }
+
+            $integrity = Sri::html($path, $crossOrigin);
+
+            if (ends_with($path, 'css')) {
+                return "<link href='{$href}' rel='stylesheet' {$integrity}>";
+            } elseif (ends_with($path, 'js')) {
+                return "<script src='{$href}' {$integrity}></script>";
+            } else {
+                throw new \Exception('Invalid file');
+            }
+        });
+
+        Blade::directive('assetSri', function (string $path, bool $crossOrigin = false) {
+            if (starts_with($path, ['http', 'https', '//'])) {
+                $href = $path;
+            } else {
+                $href = asset($path);
+            }
+
+            $integrity = Sri::html($path, $crossOrigin);
+
+            if (ends_with($path, 'css')) {
+                return "<link href='{$href}' rel='stylesheet' {$integrity}>";
+            } elseif (ends_with($path, 'js')) {
+                return "<script src='{$href}' {$integrity}></script>";
+            } else {
+                throw new \Exception('Invalid file');
+            }
+        });
     }
 
     public function boot()

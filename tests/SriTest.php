@@ -25,7 +25,7 @@ class SriTest extends TestCase
      */
     public function it_throws_an_exception_if_has_no_content()
     {
-        $sri = new Sri();
+        $sri = new Sri('sha256');
 
         $this->expectExceptionMessage('file not found');
         $sri->hash('');
@@ -36,7 +36,7 @@ class SriTest extends TestCase
      */
     public function it_returns_an_empty_string_when_the_hash_fails()
     {
-        $sri = new Sri();
+        $sri = new Sri('sha256');
 
         $this->assertEquals('', $sri->html(''));
     }
@@ -46,7 +46,7 @@ class SriTest extends TestCase
      */
     public function it_generates_html_code_with_integrity()
     {
-        $sri = new Sri();
+        $sri = new Sri('sha256');
 
         $hash = hash('sha256', 'http://test.css', true);
         $base64Hash = base64_encode($hash);
