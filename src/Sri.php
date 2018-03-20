@@ -4,7 +4,6 @@ namespace Elhebert\SubresourceIntegrity;
 
 use Illuminate\Support\Facades\File;
 
-
 class Sri
 {
     /** @var string */
