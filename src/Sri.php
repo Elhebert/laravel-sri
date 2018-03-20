@@ -31,6 +31,16 @@ class Sri
 
     public function hash(string $path): string
     {
+        if (file_exists(public_path('mix-sri.json'))) {
+            $json = json_decode(file_get_contents(public_path('mix-sri.json')));
+
+            $tmpPath = starts_with($path, '/') ? $path : "/{$path}";
+
+            if (array_key_exists($tmpPath, $json)) {
+                return $json->$tmpPath;
+            }
+        }
+
         if (starts_with($path, ['http', 'https', '//'])) {
             $fileContent = file_get_contents($path);
         } else {

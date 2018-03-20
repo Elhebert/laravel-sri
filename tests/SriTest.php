@@ -10,12 +10,21 @@ function file_get_contents(string $path): ?string
         return null;
     }
 
+    if ($path === './tests/mix-sri.json') {
+        return '{"/css/app.css": "my-hash"}';
+    }
+
     return $path;
 }
 
 function config(string $key): string
 {
     return 'path';
+}
+
+function public_path(string $path) : string
+{
+    return "./tests/{$path}";
 }
 
 class SriTest extends TestCase
@@ -52,5 +61,14 @@ class SriTest extends TestCase
         $base64Hash = base64_encode($hash);
 
         $this->assertContains($base64Hash, $sri->html('http://test.css'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_read_the_hash_from_mix_sri_file_if_the_file_exists()
+    {
+        $sri = new Sri('sha256');
+        $this->assertContains('my-hash', $sri->hash('css/app.css'));
     }
 }

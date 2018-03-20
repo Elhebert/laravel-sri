@@ -35,6 +35,10 @@ $ php artisan vendor:publish --provider="Elhebert\SubresourceIntegrity\SriServic
 
 ## Usage
 
+To avoid having to re-hash the file on every reload, you can use the [laravel-mix-sri](https://github.com/Elhebert/laravel-mix-sri) mix extension. It'll generate new hashes on build and store them in a `mix-sri.json` file.
+
+The `hash` method will first try to read this file and extract the correspond hash for a given asset file. If it exist, it'll return that value. Otherwise it'll read the content of the asset file and hash it accordingly.
+
 To only get a hash, use `Sri::hash`:
 
 ```html
@@ -87,8 +91,8 @@ This package also work for remote resources. Be careful that resources like Goog
 You can also use the blade directives for remotes resources. Both are similar for external assets. It'll simply load the asset without the laravel helper.
 
 ```php
-@mixSri('http://code.jquery.com/jquery-3.3.1.min.js')
-@assetSri('http://code.jquery.com/jquery-3.3.1.min.js')
+@mixSri(http://code.jquery.com/jquery-3.3.1.min.js)
+@assetSri(http://code.jquery.com/jquery-3.3.1.min.js)
 ```
 
 will both generate the equivalent of the`<script>` tag just above.
