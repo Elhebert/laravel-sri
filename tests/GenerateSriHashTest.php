@@ -17,7 +17,7 @@ class GenerateSriHashTest extends TestCase
     public function it_correctly_hash_the_content_of_a_file()
     {
         config([
-            'subresource-integrity.base_path' => './tests/'
+            'subresource-integrity.base_path' => './tests/',
         ]);
 
         $hash = hash('sha256', file_get_contents('./tests/files/app.css'), true);
@@ -31,13 +31,13 @@ class GenerateSriHashTest extends TestCase
     {
         config([
             'subresource-integrity.base_path' => './tests/',
-            'subresource-integrity.algorithm' => 'invalid-algorithm'
+            'subresource-integrity.algorithm' => 'invalid-algorithm',
         ]);
 
         $hash = hash('sha256', file_get_contents('./tests/files/app.css'), true);
         $base64Hash = base64_encode($hash);
 
-        $this->assertContains("sha256", Sri::hash('files/app.css', true));
+        $this->assertContains('sha256', Sri::hash('files/app.css', true));
     }
 
     /** @test */
@@ -45,7 +45,7 @@ class GenerateSriHashTest extends TestCase
     {
         config([
             'subresource-integrity.base_path' => './tests/',
-            'subresource-integrity.algorithm' => 'sha384'
+            'subresource-integrity.algorithm' => 'sha384',
         ]);
 
         $hash = hash('sha384', file_get_contents('./tests/files/app.css'), true);
@@ -59,7 +59,7 @@ class GenerateSriHashTest extends TestCase
     {
         config([
             'subresource-integrity.base_path' => './tests/',
-            'subresource-integrity.algorithm' => 'sha512'
+            'subresource-integrity.algorithm' => 'sha512',
         ]);
 
         $hash = hash('sha512', file_get_contents('./tests/files/app.css'), true);
