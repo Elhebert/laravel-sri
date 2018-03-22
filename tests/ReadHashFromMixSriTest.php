@@ -4,7 +4,7 @@ namespace Elhebert\SubresourceIntegrity\Tests;
 
 use Elhebert\SubresourceIntegrity\SriFacade as Sri;
 
-class ReadHashFromMixSri extends TestCase
+class ReadHashFromMixSriTest extends TestCase
 {
     /** @test */
     public function it_correctly_read_a_hash_from_the_mix_sri_file()
@@ -21,7 +21,7 @@ class ReadHashFromMixSri extends TestCase
     {
         config([
             'subresource-integrity.base_path' => './tests/',
-            'subresource-integrity.mix_sri_path' => './tests/files/mix.json'
+            'subresource-integrity.mix_sri_path' => './tests/files/mix.json',
         ]);
 
         $hash = hash('sha256', file_get_contents('./tests/files/app.css'), true);
@@ -35,7 +35,7 @@ class ReadHashFromMixSri extends TestCase
     {
         config([
             'subresource-integrity.base_path' => './tests/',
-            'subresource-integrity.mix_sri_path' => './tests/files/mix-sri.json'
+            'subresource-integrity.mix_sri_path' => './tests/files/mix-sri.json',
         ]);
 
         $hash = hash('sha256', file_get_contents('./tests/files/app.css'), true);
