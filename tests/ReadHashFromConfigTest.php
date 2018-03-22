@@ -4,7 +4,7 @@ namespace Elhebert\SubresourceIntegrity\Tests;
 
 use Elhebert\SubresourceIntegrity\SriFacade as Sri;
 
-class ReadHashFromConfig extends TestCase
+class ReadHashFromConfigTest extends TestCase
 {
     /** @test */
     public function it_correctly_read_a_hash_from_the_config()
@@ -12,7 +12,7 @@ class ReadHashFromConfig extends TestCase
         config([
             'subresource-integrity.hashes' => [
                 'css/app.css' => 'this-hash-is-valid',
-            ]
+            ],
         ]);
 
         $this->assertEquals('this-hash-is-valid', Sri::hash('css/app.css'));
@@ -25,7 +25,7 @@ class ReadHashFromConfig extends TestCase
             'subresource-integrity.base_path' => './tests/',
             'subresource-integrity.hashes' => [
                 'css/app.css' => 'this-hash-is-valid',
-            ]
+            ],
         ]);
 
         $hash = hash('sha256', file_get_contents('./tests/files/app.css'), true);

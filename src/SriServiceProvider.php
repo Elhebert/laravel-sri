@@ -4,7 +4,6 @@ namespace Elhebert\SubresourceIntegrity;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Elhebert\SubresourceIntegrity\SriFacade;
 
 class SriServiceProvider extends ServiceProvider
 {
