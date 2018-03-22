@@ -4,6 +4,7 @@ namespace Elhebert\SubresourceIntegrity;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Elhebert\SubresourceIntegrity\SriFacade;
 
 class SriServiceProvider extends ServiceProvider
 {
@@ -27,7 +28,7 @@ class SriServiceProvider extends ServiceProvider
                 $href = mix($path);
             }
 
-            $integrity = Sri::html($path, $crossOrigin);
+            $integrity = SriFacade::html($path, $crossOrigin);
 
             if (ends_with($path, 'css')) {
                 return "<link href='{$href}' rel='stylesheet' {$integrity}>";
@@ -45,7 +46,7 @@ class SriServiceProvider extends ServiceProvider
                 $href = asset($path);
             }
 
-            $integrity = Sri::html($path, $crossOrigin);
+            $integrity = SriFacade::html($path, $crossOrigin);
 
             if (ends_with($path, 'css')) {
                 return "<link href='{$href}' rel='stylesheet' {$integrity}>";
