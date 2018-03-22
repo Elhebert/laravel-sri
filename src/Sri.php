@@ -65,7 +65,10 @@ class Sri
         if (starts_with($path, ['http', 'https', '//'])) {
             $fileContent = file_get_contents($path);
         } else {
-            $fileContent = file_get_contents(config('subresource-integrity.base_path')."/{$path}");
+            $path = starts_with($path, '/') ? $path : "/{$path}";
+            $path = parse_url($path, PHP_URL_PATH);
+
+            $fileContent = file_get_contents(config('subresource-integrity.base_path')."{$path}");
         }
 
         if (! $fileContent) {
