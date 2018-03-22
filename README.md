@@ -23,21 +23,22 @@ This package uses [auto-discovery](https://laravel.com/docs/5.5/packages#package
 
 ## Config
 
-The base path of the assets will be the `public` directory. You can change it within the config file `subresource-integrity`.
-
-You can also customize the hashing algorithm. Possible algorithms are `sha256`, `sha384` and `sha512`.
-
-You can publish the config file using
+If you want ot make changes in the configuration you can publish the config file using
 
 ```sh
 $ php artisan vendor:publish --provider="Elhebert\SubresourceIntegrity\SriServiceProvider"
 ```
 
+### Content of the configuration
+
+| key | default value | possible values |
+| - | - | - |
+| base_path | `base_path('/public')` | |
+| algorithm | sha256 | sha256, sha384 and sha512 |
+| hashes | `[]` | (see "[How to get a hash](#how-to-get-a-hash)) |
+| mix_sri_path | `public_path('mix-sri.json')` | (see "[How to get a hash](#how-to-get-a-hash)) |
+
 ## Usage
-
-To avoid having to re-hash the file on every reload, you can use the [laravel-mix-sri](https://github.com/Elhebert/laravel-mix-sri) mix extension. It'll generate new hashes on build and store them in a `mix-sri.json` file.
-
-The `hash` method will first try to read this file and extract the correspond hash for a given asset file. If it exist, it'll return that value. Otherwise it'll read the content of the asset file and hash it accordingly.
 
 To only get a hash, use `Sri::hash`:
 
@@ -62,6 +63,7 @@ To generate the HTML for the `integrity` and the `crossorigin` attributes, use `
 >
 ```
 
+
 ### Blade directive
 
 Two blade directive are available to make your views cleaner:
@@ -76,6 +78,45 @@ Use `@assetSri` to generate the `<link>` or `<script>` tag with the proper attri
 @assetSri(string $path, bool $useCredentials = 'false')
 ```
 
+## How to get a hash
+
+### Store hashes in the configuration
+
+You can references the assets in the configuration like this:
+
+```php
+[
+    // ...
+
+    'hashes' => [
+        'css/app.css' => 'my_super_hash'
+        'https://code.jquery.com/jquery-3.3.1.min.js' => 'sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8='
+    ]
+]
+```
+
+This means, you have to calculate the hashes yourself. To do this, you can use [report-uri.io](https://report-uri.com/home/sri_hash), [mozilla hash generator](https://www.srihash.org/) or any other resource available.
+
+### Using a webpack (or Mix) plugin to generate hashes on build
+
+It expect a `mix-sri.json` file with a similar structure to the `mix-manifest.json`:
+```json
+{
+    "/css/app.css": "my_super_hash",
+    "/js/app.js": "my_super_hash",
+}
+```
+
+The filename and path can be changed in the configuration at any time.
+
+> Self promotion: I made a Laravel Mix extension [laravel-mix-sri](https://github.com/Elhebert/laravel-mix-sri) for this purpose.
+
+### Generate them on the fly
+
+If it can't find the asset hash in the config file nor in the mix-sri.json file, it'll generate the hash on each reload of the page.
+
+This method is the least recommended, because it reduce performance and make your page load slower.
+
 ## Remote resources
 
 This package also work for remote resources. Be careful that resources like Google Fonts [won't work](https://github.com/google/fonts/issues/473).
@@ -87,15 +128,6 @@ This package also work for remote resources. Be careful that resources like Goog
     crossorigin="anonymous"
 ></script>
 ```
-
-You can also use the blade directives for remotes resources. Both are similar for external assets. It'll simply load the asset without the laravel helper.
-
-```php
-@mixSri(http://code.jquery.com/jquery-3.3.1.min.js)
-@assetSri(http://code.jquery.com/jquery-3.3.1.min.js)
-```
-
-will both generate the equivalent of the`<script>` tag just above.
 
 ## Contributing
 

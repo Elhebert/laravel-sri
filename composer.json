@@ -18,11 +18,17 @@
         "illuminate/support": "5.5.* || 5.6.*"
     },
     "require-dev": {
+        "orchestra/testbench": "~3.0",
         "phpunit/phpunit": "^6.5"
     },
     "autoload": {
         "psr-4": {
             "Elhebert\\SubresourceIntegrity\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Elhebert\\SubresourceIntegrity\\Tests\\": "tests"
         }
     },
     "config": {

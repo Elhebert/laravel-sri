@@ -10,7 +10,7 @@ class SriServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(Sri::class, function () {
-            return new Sri(config('sri.algorithm'));
+            return new Sri(config('subresource-integrity.algorithm'));
         });
 
         $this->app->alias(Sri::class, 'sri');

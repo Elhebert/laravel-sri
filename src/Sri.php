@@ -31,29 +31,52 @@ class Sri
 
     public function hash(string $path): string
     {
-        if (file_exists(public_path('mix-sri.json'))) {
-            $json = json_decode(file_get_contents(public_path('mix-sri.json')));
+        if ($this->existsInConfigFile($path)) {
+            return config('subresource-integrity.hashes')[$path];
+        }
 
-            $tmpPath = starts_with($path, '/') ? $path : "/{$path}";
+        if ($this->mixFileExists()) {
+            $json = json_decode(file_get_contents($this->jsonFilePath()));
+            $prefixedPath = starts_with($path, '/') ? $path : "/{$path}";
 
-            if (array_key_exists($tmpPath, $json)) {
-                return $json->$tmpPath;
+            if (array_key_exists($prefixedPath, $json)) {
+                return $json->$prefixedPath;
             }
         }
 
-        if (starts_with($path, ['http', 'https', '//'])) {
-            $fileContent = file_get_contents($path);
-        } else {
-            $fileContent = file_get_contents(config('subresource-integrity.base_path')."/{$path}");
-        }
-
-        if (! $fileContent) {
-            throw new \Exception('file not found');
-        }
-
-        $hash = hash($this->algorithm, $fileContent, true);
+        $hash = hash($this->algorithm, $this->getFileContent($path), true);
         $base64Hash = base64_encode($hash);
 
         return "{$this->algorithm}-{$base64Hash}";
+    }
+
+    private function existsInConfigFile(string $path): bool
+    {
+        return array_key_exists($path, config('subresource-integrity.hashes'));
+    }
+
+    private function mixFileExists(): bool
+    {
+        return file_exists($this->jsonFilePath());
+    }
+
+    private function getFileContent(string $path): string
+    {
+        if (starts_with($path, ['http', 'https', '//'])) {
+            $fileContent = file_get_contents($path);
+        } else {
+            $fileContent = file_get_contents(config('subresource-integrity.base_path') . "/{$path}");
+        }
+
+        if (!$fileContent) {
+            throw new \Exception('file not found');
+        }
+
+        return $fileContent;
+    }
+
+    private function jsonFilePath(): string
+    {
+        return config('subresource-integrity.mix_sri_path');
     }
 }
