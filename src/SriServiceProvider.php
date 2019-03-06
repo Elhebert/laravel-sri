@@ -19,6 +19,13 @@ class SriServiceProvider extends ServiceProvider
             __DIR__.'/../config/subresource-integrity.php',
             'subresource-integrity'
         );
+    }
+
+    public function boot()
+    {
+        $this->publishes([
+            __DIR__.'/../config/subresource-integrity.php' => config_path('subresource-integrity.php'),
+        ]);
 
         Blade::directive('mixSri', function (string $path, bool $crossOrigin = false) {
             if (starts_with($path, ['http', 'https', '//'])) {
@@ -55,12 +62,5 @@ class SriServiceProvider extends ServiceProvider
                 throw new \Exception('Invalid file');
             }
         });
-    }
-
-    public function boot()
-    {
-        $this->publishes([
-            __DIR__.'/../config/subresource-integrity.php' => config_path('subresource-integrity.php'),
-        ]);
     }
 }
