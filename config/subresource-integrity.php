@@ -5,7 +5,7 @@ return [
 
     'algorithm' => env('SRI_ALGORITHM', 'sha256'),
 
-    'mix_sri_path' => public_path('mix_sri.json'),
+    'mix_sri_path' => public_path('mix-sri.json'),
 
     'hashes' => [
         //
