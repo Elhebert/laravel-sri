@@ -4,6 +4,7 @@ namespace Elhebert\SubresourceIntegrity;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class SriServiceProvider extends ServiceProvider
 {
@@ -28,7 +29,7 @@ class SriServiceProvider extends ServiceProvider
         ]);
 
         Blade::directive('mixSri', function (string $path, bool $crossOrigin = false) {
-            if (starts_with($path, ['http', 'https', '//'])) {
+            if (Str::startsWith($path, ['http', 'https', '//'])) {
                 $href = $path;
             } else {
                 $href = mix($path);
@@ -36,9 +37,9 @@ class SriServiceProvider extends ServiceProvider
 
             $integrity = SriFacade::html($path, $crossOrigin);
 
-            if (ends_with($path, 'css')) {
+            if (Str::endsWith($path, 'css')) {
                 return "<link href='{$href}' rel='stylesheet' {$integrity}>";
-            } elseif (ends_with($path, 'js')) {
+            } elseif (Str::endsWith($path, 'js')) {
                 return "<script src='{$href}' {$integrity}></script>";
             } else {
                 throw new \Exception('Invalid file');
@@ -46,7 +47,7 @@ class SriServiceProvider extends ServiceProvider
         });
 
         Blade::directive('assetSri', function (string $path, bool $crossOrigin = false) {
-            if (starts_with($path, ['http', 'https', '//'])) {
+            if (Str::startsWith($path, ['http', 'https', '//'])) {
                 $href = $path;
             } else {
                 $href = asset($path);
@@ -54,9 +55,9 @@ class SriServiceProvider extends ServiceProvider
 
             $integrity = SriFacade::html($path, $crossOrigin);
 
-            if (ends_with($path, 'css')) {
+            if (Str::endsWith($path, 'css')) {
                 return "<link href='{$href}' rel='stylesheet' {$integrity}>";
-            } elseif (ends_with($path, 'js')) {
+            } elseif (Str::endsWith($path, 'js')) {
                 return "<script src='{$href}' {$integrity}></script>";
             } else {
                 throw new \Exception('Invalid file');
