@@ -65,6 +65,7 @@ class SriServiceProvider extends ServiceProvider
     private function clean_path($path): string
     {
         $values = ['\'', '"'];
+        
         return str_replace($values, '', $path);
     }
 
