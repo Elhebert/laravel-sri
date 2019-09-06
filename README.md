@@ -4,7 +4,9 @@
 [![StyleCI](https://styleci.io/repos/119791861/shield?branch=master)](https://styleci.io/repos/119791861)
 [![TravisCI](https://travis-ci.org/Elhebert/laravel-sri.svg?branch=master)](https://travis-ci.org/Elhebert/laravel-sri)
 
-Small laravel 5.5+ package that'll generate the integrity hashes for your style and script files.
+Small Laravel 6+ package that'll generate the integrity hashes for your style and script files.
+
+For Laravel 5.5+ support you need to target version 1.5.2 specifically.
 
 ## About Subresources Integrity
 
@@ -16,7 +18,11 @@ Troy Hunt wrote an article speaking on the subject, you can read it [here](https
 ## Installation
 
 ```sh
+# Laravel 6+
 $ composer require elhebert/laravel-sri
+
+# Laravel 5.5+
+$ composer require elhebert/laravel-sri@^1.5.2
 ```
 
 This package uses [auto-discovery](https://laravel.com/docs/5.5/packages#package-discovery), so you don't have to do anything. It works out of the box.
