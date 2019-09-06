@@ -2,7 +2,7 @@
 
 namespace Elhebert\SubresourceIntegrity;
 
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class Sri
 {
@@ -37,7 +37,7 @@ class Sri
 
         if ($this->mixFileExists()) {
             $json = json_decode(file_get_contents($this->jsonFilePath()));
-            $prefixedPath = starts_with($path, '/') ? $path : "/{$path}";
+            $prefixedPath = Str::startsWith($path, '/') ? $path : "/{$path}";
 
             if (array_key_exists($prefixedPath, $json)) {
                 return $json->$prefixedPath;
@@ -62,10 +62,10 @@ class Sri
 
     private function getFileContent(string $path): string
     {
-        if (starts_with($path, ['http', 'https', '//'])) {
+        if (Str::startsWith($path, ['http', 'https', '//'])) {
             $fileContent = file_get_contents($path);
         } else {
-            $path = starts_with($path, '/') ? $path : "/{$path}";
+            $path = Str::startsWith($path, '/') ? $path : "/{$path}";
             $path = parse_url($path, PHP_URL_PATH);
 
             $fileContent = file_get_contents(config('subresource-integrity.base_path')."{$path}");
