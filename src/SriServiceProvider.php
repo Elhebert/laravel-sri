@@ -30,7 +30,7 @@ class SriServiceProvider extends ServiceProvider
         ]);
 
         Blade::directive('mixSri', function (string $path, bool $crossOrigin = false) {
-            $path = $this->clean_path($path);
+            $path = $this->removeQuotes($path);
 
             if (Str::startsWith($path, ['http', 'https', '//'])) {
                 $href = $path;
@@ -38,11 +38,11 @@ class SriServiceProvider extends ServiceProvider
                 $href = mix($path);
             }
 
-            return $this->generate($path, $href, $crossOrigin);
+            return $this->parseAndGenerateUrl($path, $href, $crossOrigin);
         });
 
         Blade::directive('assetSri', function (string $path, bool $crossOrigin = false) {
-            $path = $this->clean_path($path);
+            $path = $this->removeQuotes($path);
 
             if (Str::startsWith($path, ['http', 'https', '//'])) {
                 $href = $path;
@@ -50,68 +50,36 @@ class SriServiceProvider extends ServiceProvider
                 $href = asset($path);
             }
 
-            return $this->generate($path, $href, $crossOrigin);
+            return $this->parseAndGenerateUrl($path, $href, $crossOrigin);
         });
     }
 
-    /**
-     * Remove apostrophe and quotation mark.
-     *
-     * @param string  $path
-     * @return string
-     *
-     * @throws \Exception
-     */
-    private function clean_path($path): string
+    private function removeQuotes(string $path): string
     {
         $values = ['\'', '"'];
 
         return str_replace($values, '', $path);
     }
 
-    /**
-     * Parse and generate the URL.
-     *
-     * @param string  $path
-     * @param string  $href
-     * @param bool    $crossOrigin
-     * @return void
-     *
-     * @throws \Exception
-     */
-    private function generate(string $path, string $href, bool $crossOrigin)
+    private function parseAndGenerateUrl(string $path, string $href, bool $crossOrigin)
     {
         $integrity = SriFacade::html($href, $crossOrigin);
 
         if (Str::endsWith($path, 'css')) {
-            return $this->css($href, $integrity);
+            return $this->generateCssUrl($href, $integrity);
         } elseif (Str::endsWith($path, 'js')) {
-            return $this->js($href, $integrity);
+            return $this->generateJsUrl($href, $integrity);
         } else {
             throw new \Exception('Invalid file');
         }
     }
 
-    /**
-     * Generate JS URL.
-     *
-     * @param string $href
-     * @param string $integrity
-     * @return \Illuminate\Support\HtmlString string
-     */
-    private function js(string $href, string $integrity)
+    private function generateJsUrl(string $href, string $integrity): HtmlString
     {
         return new HtmlString("<script src='{$href}' {$integrity}></script>");
     }
 
-    /**
-     * Generate CSS URL.
-     *
-     * @param string $href
-     * @param string $integrity
-     * @return \Illuminate\Support\HtmlString string
-     */
-    private function css(string $href, string $integrity)
+    private function generateCssUrl(string $href, string $integrity): HtmlString
     {
         return new HtmlString("<link href='{$href}' rel='stylesheet' {$integrity}>");
     }
