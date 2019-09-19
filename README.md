@@ -16,7 +16,7 @@ Troy Hunt wrote an article speaking on the subject, you can read it [here](https
 ## Installation
 
 ```sh
-$ composer require elhebert/laravel-sri
+$ composer require elhebert/laravel-sri:^1.5.2
 ```
 
 This package uses [auto-discovery](https://laravel.com/docs/5.5/packages#package-discovery), so you don't have to do anything. It works out of the box.
