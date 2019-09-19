@@ -6,7 +6,7 @@
 
 Small Laravel 6+ package that'll generate the integrity hashes for your style and script files.
 
-For Laravel 5.5+ support you need to target version 1.5.2 specifically.
+For Laravel 5.5+ support, use the [v1 branch](https://github.com/Elhebert/laravel-sri/tree/v1).
 
 ## About Subresources Integrity
 
@@ -18,11 +18,7 @@ Troy Hunt wrote an article speaking on the subject, you can read it [here](https
 ## Installation
 
 ```sh
-# Laravel 6+
 $ composer require elhebert/laravel-sri
-
-# Laravel 5.5+
-$ composer require elhebert/laravel-sri@^1.5.2
 ```
 
 This package uses [auto-discovery](https://laravel.com/docs/5.5/packages#package-discovery), so you don't have to do anything. It works out of the box.
