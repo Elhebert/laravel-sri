@@ -2,6 +2,7 @@
 
 namespace Elhebert\SubresourceIntegrity;
 
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,39 +29,56 @@ class SriServiceProvider extends ServiceProvider
         ]);
 
         Blade::directive('mixSri', function (string $path, bool $crossOrigin = false) {
+            $path = $this->removeQuotes($path);
+
             if (starts_with($path, ['http', 'https', '//'])) {
                 $href = $path;
             } else {
                 $href = mix($path);
             }
 
-            $integrity = SriFacade::html($path, $crossOrigin);
-
-            if (ends_with($path, 'css')) {
-                return "<link href='{$href}' rel='stylesheet' {$integrity}>";
-            } elseif (ends_with($path, 'js')) {
-                return "<script src='{$href}' {$integrity}></script>";
-            } else {
-                throw new \Exception('Invalid file');
-            }
+            return $this->parseAndGenerateUrl($path, $href, $crossOrigin);
         });
 
         Blade::directive('assetSri', function (string $path, bool $crossOrigin = false) {
+            $path = $this->removeQuotes($path);
+
             if (starts_with($path, ['http', 'https', '//'])) {
                 $href = $path;
             } else {
                 $href = asset($path);
             }
 
-            $integrity = SriFacade::html($path, $crossOrigin);
-
-            if (ends_with($path, 'css')) {
-                return "<link href='{$href}' rel='stylesheet' {$integrity}>";
-            } elseif (ends_with($path, 'js')) {
-                return "<script src='{$href}' {$integrity}></script>";
-            } else {
-                throw new \Exception('Invalid file');
-            }
+            return $this->parseAndGenerateUrl($path, $href, $crossOrigin);
         });
+    }
+
+    private function removeQuotes(string $path): string
+    {
+        $values = ['\'', '"'];
+
+        return str_replace($values, '', $path);
+    }
+
+    private function parseAndGenerateUrl(string $path, string $href, bool $crossOrigin): HtmlString
+    {
+        $integrity = SriFacade::html($href, $crossOrigin);
+        if (ends_with($path, 'css')) {
+            return $this->generateCssUrl($href, $integrity);
+        } elseif (ends_with($path, 'js')) {
+            return $this->generateJsUrl($href, $integrity);
+        } else {
+            throw new \Exception('Invalid file');
+        }
+    }
+
+    private function generateJsUrl(string $href, string $integrity): HtmlString
+    {
+        return new HtmlString("<script src='{$href}' {$integrity}></script>");
+    }
+
+    private function generateCssUrl(string $href, string $integrity): HtmlString
+    {
+        return new HtmlString("<link href='{$href}' rel='stylesheet' {$integrity}>");
     }
 }
