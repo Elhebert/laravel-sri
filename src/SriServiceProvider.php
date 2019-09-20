@@ -76,11 +76,11 @@ class SriServiceProvider extends ServiceProvider
 
     private function generateJsUrl(string $href, string $integrity): HtmlString
     {
-        return new HtmlString("<script src='{$href}' {$integrity}></script>");
+        return new HtmlString('<script src="{$href}" {$integrity}></script>');
     }
 
     private function generateCssUrl(string $href, string $integrity): HtmlString
     {
-        return new HtmlString("<link href='{$href}' rel='stylesheet' {$integrity}>");
+        return new HtmlString('<link href="{$href}" rel="stylesheet" {$integrity}>');
     }
 }
