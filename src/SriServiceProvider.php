@@ -56,7 +56,7 @@ class SriServiceProvider extends ServiceProvider
     private function removeQuotes(string $path): string
     {
         $values = ['\'', '"'];
-        
+
         return str_replace($values, '', $path);
     }
 
