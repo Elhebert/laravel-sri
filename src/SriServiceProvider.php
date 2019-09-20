@@ -61,7 +61,7 @@ class SriServiceProvider extends ServiceProvider
         return str_replace($values, '', $path);
     }
 
-    private function parseAndGenerateUrl(string $path, string $href, bool $crossOrigin)
+    private function parseAndGenerateUrl(string $path, string $href, bool $crossOrigin): HtmlString
     {
         $integrity = SriFacade::html($href, $crossOrigin);
 
