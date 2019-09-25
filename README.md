@@ -70,13 +70,15 @@ Two blade directive are available to make your views cleaner:
 
 Use `@mixSri` to generate the `<link>` or `<script>` tag with the proper attributes and using the `mix()` helper to generate the asset path:
 ```php
-@mixSri(string $path, bool $useCredentials = 'false')
+@mixSri(string $path, bool $useCredentials = 'false', string $execute = null)
 ```
 
 Use `@assetSri` to generate the `<link>` or `<script>` tag with the proper attributes and using the `asset()` helper to generate the asset path:
 ```php
-@assetSri(string $path, bool $useCredentials = 'false')
+@assetSri(string $path, bool $useCredentials = 'false', string $execute = null)
 ```
+
+Use the `$execute` when want declare `async` and `defer` attributes in JavaScript.
 
 ## How to get a hash
 

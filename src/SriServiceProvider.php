@@ -28,8 +28,9 @@ class SriServiceProvider extends ServiceProvider
             __DIR__.'/../config/subresource-integrity.php' => config_path('subresource-integrity.php'),
         ]);
 
-        Blade::directive('mixSri', function (string $path, bool $crossOrigin = false) {
+        Blade::directive('mixSri', function (string $path, bool $crossOrigin = false, string $execute = null) {
             $path = $this->removeQuotes($path);
+            $execute = $this->removeQuotes($execute);
 
             if (starts_with($path, ['http', 'https', '//'])) {
                 $href = $path;
@@ -37,11 +38,12 @@ class SriServiceProvider extends ServiceProvider
                 $href = mix($path);
             }
 
-            return $this->parseAndGenerateUrl($path, $href, $crossOrigin);
+            return $this->parseAndGenerateUrl($path, $href, $crossOrigin, $execute);
         });
 
-        Blade::directive('assetSri', function (string $path, bool $crossOrigin = false) {
+        Blade::directive('assetSri', function (string $path, bool $crossOrigin = false, string $execute = null) {
             $path = $this->removeQuotes($path);
+            $execute = $this->removeQuotes($execute);
 
             if (starts_with($path, ['http', 'https', '//'])) {
                 $href = $path;
@@ -49,7 +51,7 @@ class SriServiceProvider extends ServiceProvider
                 $href = asset($path);
             }
 
-            return $this->parseAndGenerateUrl($path, $href, $crossOrigin);
+            return $this->parseAndGenerateUrl($path, $href, $crossOrigin, $execute);
         });
     }
 
@@ -60,21 +62,25 @@ class SriServiceProvider extends ServiceProvider
         return str_replace($values, '', $path);
     }
 
-    private function parseAndGenerateUrl(string $path, string $href, bool $crossOrigin): HtmlString
+    private function parseAndGenerateUrl(string $path, string $href, bool $crossOrigin, string $execute): HtmlString
     {
         $integrity = SriFacade::html($href, $crossOrigin);
         if (ends_with($path, 'css')) {
             return $this->generateCssUrl($href, $integrity);
         } elseif (ends_with($path, 'js')) {
-            return $this->generateJsUrl($href, $integrity);
+            return $this->generateJsUrl($href, $integrity, $execute);
         } else {
             throw new \Exception('Invalid file');
         }
     }
 
-    private function generateJsUrl(string $href, string $integrity): HtmlString
+    private function generateJsUrl(string $href, string $integrity, string $execute): HtmlString
     {
-        return new HtmlString("<script src='{$href}' {$integrity}></script>");
+        if (isNull($execute)) {
+            return new HtmlString("<script src='{$href}' {$integrity}></script>");
+        }
+
+        return new HtmlString("<script src='{$href}' {$integrity} {$execute}></script>");
     }
 
     private function generateCssUrl(string $href, string $integrity): HtmlString
