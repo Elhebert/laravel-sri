@@ -39,7 +39,7 @@ class Sri
             $json = json_decode(file_get_contents($this->jsonFilePath()));
             $prefixedPath = Str::startsWith($path, '/') ? $path : "/{$path}";
 
-            if (array_key_exists($prefixedPath, $json)) {
+            if (property_exists($json, $prefixedPath)) {
                 return $json->$prefixedPath;
             }
         }
