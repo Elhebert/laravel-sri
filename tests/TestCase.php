@@ -2,8 +2,8 @@
 
 namespace Elhebert\SubresourceIntegrity\Tests;
 
-use Orchestra\Testbench\TestCase as Orchestra;
 use Elhebert\SubresourceIntegrity\SriServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
 {
