@@ -2,7 +2,7 @@
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![StyleCI](https://styleci.io/repos/119791861/shield?branch=master)](https://styleci.io/repos/119791861)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/elhebert/laravel-sri/Run PHPUnit tests?label=Tests&style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/elhebert/laravel-sri/Run%20PHPUnit%20tests?label=Tests&style=flat-square)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/elhebert/laravel-sri.svg?style=flat-square)](https://packagist.org/packages/elhebert/laravel-sri)
 [![Total Downloads](https://img.shields.io/packagist/dt/elhebert/laravel-sri.svg?style=flat-square)](https://packagist.org/packages/elhebert/laravel-sri)
 
