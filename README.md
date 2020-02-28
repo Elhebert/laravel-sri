@@ -2,7 +2,9 @@
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![StyleCI](https://styleci.io/repos/119791861/shield?branch=master)](https://styleci.io/repos/119791861)
-[![TravisCI](https://travis-ci.org/Elhebert/laravel-sri.svg?branch=master)](https://travis-ci.org/Elhebert/laravel-sri)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/elhebert/laravel-sri/phpunit?label=Tests&style=flat-square)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/elhebert/laravel-sri.svg?style=flat-square)](https://packagist.org/packages/elhebert/laravel-sri)
+[![Total Downloads](https://img.shields.io/packagist/dt/elhebert/laravel-sri.svg?style=flat-square)](https://packagist.org/packages/elhebert/laravel-sri)
 
 Small Laravel 6+ package that'll generate the integrity hashes for your style and script files.
 
@@ -11,6 +13,7 @@ For Laravel 5.5+ support, use the [v1 branch](https://github.com/Elhebert/larave
 ## About Subresources Integrity
 
 From [MDN](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity):
+
 > Subresource Integrity (SRI) is a security feature that enables browsers to verify that files they fetch (for example, from a CDN) are delivered without unexpected manipulation. It works by allowing you to provide a cryptographic hash that a fetched file must match.
 
 Troy Hunt wrote an article speaking on the subject, you can read it [here](https://www.troyhunt.com/protecting-your-embedded-content-with-subresource-integrity-sri/)
@@ -18,7 +21,7 @@ Troy Hunt wrote an article speaking on the subject, you can read it [here](https
 ## Installation
 
 ```sh
-$ composer require elhebert/laravel-sri
+composer require elhebert/laravel-sri
 ```
 
 This package uses [auto-discovery](https://laravel.com/docs/5.5/packages#package-discovery), so you don't have to do anything. It works out of the box.
@@ -28,16 +31,16 @@ This package uses [auto-discovery](https://laravel.com/docs/5.5/packages#package
 If you want ot make changes in the configuration you can publish the config file using
 
 ```sh
-$ php artisan vendor:publish --provider="Elhebert\SubresourceIntegrity\SriServiceProvider"
+php artisan vendor:publish --provider="Elhebert\SubresourceIntegrity\SriServiceProvider"
 ```
 
 ### Content of the configuration
 
-| key | default value | possible values |
-| - | - | - |
-| base_path | `base_path('/public')` | |
-| algorithm | sha256 | sha256, sha384 and sha512 |
-| hashes | `[]` | (see "[How to get a hash](#how-to-get-a-hash)) |
+| key          | default value                 | possible values                                |
+| ------------ | ----------------------------- | ---------------------------------------------- |
+| base_path    | `base_path('/public')`        |                                                |
+| algorithm    | sha256                        | sha256, sha384 and sha512                      |
+| hashes       | `[]`                          | (see "[How to get a hash](#how-to-get-a-hash)) |
 | mix_sri_path | `public_path('mix-sri.json')` | (see "[How to get a hash](#how-to-get-a-hash)) |
 
 ## Usage
@@ -50,10 +53,11 @@ To only get a hash, use `Sri::hash`:
     rel="stylesheet"
     integrity="{{ Sri::hash('css/app.css') }}"
     crossorigin="anonymous"
->
+/>
 ```
 
 To generate the HTML for the `integrity` and the `crossorigin` attributes, use `Sri::html`. It accepts two parameters:
+
 - first one is the path;
 - second one (default is `false`) tells if you want to pass the credentials when fetching the resource.
 
@@ -65,17 +69,18 @@ To generate the HTML for the `integrity` and the `crossorigin` attributes, use `
 >
 ```
 
-
 ### Blade directive
 
 Two blade directive are available to make your views cleaner:
 
 Use `@mixSri` to generate the `<link>` or `<script>` tag with the proper attributes and using the `mix()` helper to generate the asset path:
+
 ```php
 @mixSri(string $path, bool $useCredentials = 'false')
 ```
 
 Use `@assetSri` to generate the `<link>` or `<script>` tag with the proper attributes and using the `asset()` helper to generate the asset path:
+
 ```php
 @assetSri(string $path, bool $useCredentials = 'false')
 ```
@@ -102,10 +107,11 @@ This means, you have to calculate the hashes yourself. To do this, you can use [
 ### Using a webpack (or Mix) plugin to generate hashes on build
 
 It expect a `mix-sri.json` file with a similar structure to the `mix-manifest.json`:
+
 ```json
 {
     "/css/app.css": "my_super_hash",
-    "/js/app.js": "my_super_hash",
+    "/js/app.js": "my_super_hash"
 }
 ```
 

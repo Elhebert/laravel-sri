@@ -7,6 +7,7 @@ Please read and understand the contribution guide before creating an issue or pu
 ## Pull Requests
 
 Before submitting a pull request:
+
 - Make sure to write tests!
 - Document any change in behaviour. Make sure the `README.md` and any other relevant documentation are kept up-to-date.
 - One pull request per feature. If you want to do more than one thing, send multiple pull requests.
