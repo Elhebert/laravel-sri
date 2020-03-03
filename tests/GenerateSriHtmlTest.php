@@ -22,7 +22,7 @@ class GenerateSriHtmlTest extends TestCase
         $hash = hash('sha256', file_get_contents('./tests/files/app.css'), true);
         $base64Hash = base64_encode($hash);
 
-        $this->assertContains("integrity='sha256-{$base64Hash}'", Sri::html('files/app.css'));
+        $this->assertStringContainsString("integrity='sha256-{$base64Hash}'", Sri::html('files/app.css'));
     }
 
     /** @test */
@@ -35,7 +35,7 @@ class GenerateSriHtmlTest extends TestCase
         $hash = hash('sha256', file_get_contents('./tests/files/app.css'), true);
         $base64Hash = base64_encode($hash);
 
-        $this->assertContains("integrity='sha256-{$base64Hash}'", Sri::html('files/app.css', true));
-        $this->assertContains("crossorigin='use-credentials'", Sri::html('files/app.css', true));
+        $this->assertStringContainsString("integrity='sha256-{$base64Hash}'", Sri::html('files/app.css', true));
+        $this->assertStringContainsString("crossorigin='use-credentials'", Sri::html('files/app.css', true));
     }
 }

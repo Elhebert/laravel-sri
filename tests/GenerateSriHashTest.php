@@ -3,6 +3,7 @@
 namespace Elhebert\SubresourceIntegrity\Tests;
 
 use Elhebert\SubresourceIntegrity\SriFacade as Sri;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 class GenerateSriHashTest extends TestCase
 {
@@ -37,7 +38,7 @@ class GenerateSriHashTest extends TestCase
         $hash = hash('sha256', file_get_contents('./tests/files/app.css'), true);
         $base64Hash = base64_encode($hash);
 
-        $this->assertContains('sha256', Sri::hash('files/app.css', true));
+        $this->assertStringContainsString('sha256', Sri::hash('files/app.css', true));
     }
 
     /** @test */

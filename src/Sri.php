@@ -2,7 +2,9 @@
 
 namespace Elhebert\SubresourceIntegrity;
 
+use Exception;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 class Sri
 {
@@ -62,16 +64,20 @@ class Sri
 
     private function getFileContent(string $path): string
     {
-        if (Str::startsWith($path, ['http', 'https', '//'])) {
-            $fileContent = file_get_contents($path);
-        } else {
-            $path = Str::startsWith($path, '/') ? $path : "/{$path}";
-            $path = parse_url($path, PHP_URL_PATH);
+        try {
+            if (Str::startsWith($path, ['http', 'https', '//'])) {
+                $fileContent = file_get_contents($path);
+            } else {
+                $path = Str::startsWith($path, '/') ? $path : "/{$path}";
+                $path = parse_url($path, PHP_URL_PATH);
 
-            $fileContent = file_get_contents(config('subresource-integrity.base_path')."{$path}");
-        }
+                $fileContent = file_get_contents(config('subresource-integrity.base_path')."{$path}");
+            }
 
-        if (! $fileContent) {
+            if (! $fileContent) {
+                throw new \Exception('file not found');
+            }
+        } catch (Exception $exception) {
             throw new \Exception('file not found');
         }
 
