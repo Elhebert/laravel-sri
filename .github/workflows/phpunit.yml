@@ -12,7 +12,12 @@ jobs:
                 laravel: [7.*, 6.*]
                 dependency-version: [prefer-lowest, prefer-stable]
                 os: [ubuntu-latest, windows-latest]
-
+                include:
+                    - laravel: 7.*
+                      testbench: 5.*
+                    - laravel: 6.*
+                      testbench: 4.*
+                      
         name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
 
         steps:
@@ -28,7 +33,7 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:4.*" --no-interaction --no-update
+                  composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
                   composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
             - name: Execute tests
