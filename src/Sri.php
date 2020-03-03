@@ -4,7 +4,6 @@ namespace Elhebert\SubresourceIntegrity;
 
 use Exception;
 use Illuminate\Support\Str;
-use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 class Sri
 {

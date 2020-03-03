@@ -3,7 +3,6 @@
 namespace Elhebert\SubresourceIntegrity\Tests;
 
 use Elhebert\SubresourceIntegrity\SriFacade as Sri;
-use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 class GenerateSriHashTest extends TestCase
 {
