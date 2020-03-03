@@ -28,7 +28,7 @@ This package uses [auto-discovery](https://laravel.com/docs/5.5/packages#package
 
 ## Config
 
-If you want ot make changes in the configuration you can publish the config file using
+If you want to make changes in the configuration you can publish the config file using
 
 ```sh
 php artisan vendor:publish --provider="Elhebert\SubresourceIntegrity\SriServiceProvider"
