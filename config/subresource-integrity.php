@@ -52,14 +52,14 @@ return [
     'hashes' => [
         // 'URL' => 'your_hash',
     ],
-    
+
     /*
     |--------------------------------------------------------------------------
     | Enabled Environments
     |--------------------------------------------------------------------------
     |
     | These are the application environments enabled to generate hash. Don't
-    | include your local environment specially if you're using BrowserSync or 
+    | include your local environment specially if you're using BrowserSync or
     | any like it.
     |
     */

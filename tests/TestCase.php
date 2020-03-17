@@ -17,7 +17,7 @@ abstract class TestCase extends Orchestra
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         config([
             'app.env' => 'production',
             'subresource-integrity.base_path' => './tests/',
