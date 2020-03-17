@@ -16,10 +16,6 @@ class GenerateSriHashTest extends TestCase
     /** @test */
     public function it_correctly_hash_the_content_of_a_file()
     {
-        config([
-            'subresource-integrity.base_path' => './tests/',
-        ]);
-
         $hash = hash('sha256', file_get_contents('./tests/files/app.css'), true);
         $base64Hash = base64_encode($hash);
 
@@ -30,7 +26,6 @@ class GenerateSriHashTest extends TestCase
     public function it_fallback_to_sha256_when_incorrect_algorithm_is_given()
     {
         config([
-            'subresource-integrity.base_path' => './tests/',
             'subresource-integrity.algorithm' => 'invalid-algorithm',
         ]);
 
@@ -44,7 +39,6 @@ class GenerateSriHashTest extends TestCase
     public function it_can_hash_using_sha384()
     {
         config([
-            'subresource-integrity.base_path' => './tests/',
             'subresource-integrity.algorithm' => 'sha384',
         ]);
 
@@ -58,7 +52,6 @@ class GenerateSriHashTest extends TestCase
     public function it_can_hash_using_sha512()
     {
         config([
-            'subresource-integrity.base_path' => './tests/',
             'subresource-integrity.algorithm' => 'sha512',
         ]);
 
@@ -66,5 +59,15 @@ class GenerateSriHashTest extends TestCase
         $base64Hash = base64_encode($hash);
 
         $this->assertEquals("sha512-{$base64Hash}", Sri::hash('files/app.css'));
+    }
+
+    /** @test */
+    public function it_returns_an_empty_string_in_disabled_environments()
+    {
+        config([
+            'app.env' => 'local',
+        ]);
+
+        $this->assertEquals('', Sri::hash('files/app.css'));
     }
 }

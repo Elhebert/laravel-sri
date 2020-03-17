@@ -20,7 +20,6 @@ class ReadHashFromMixSriTest extends TestCase
     public function it_fallback_to_generating_to_hash_if_mix_sri_file_does_not_exists()
     {
         config([
-            'subresource-integrity.base_path' => './tests/',
             'subresource-integrity.mix_sri_path' => './tests/files/mix.json',
         ]);
 
@@ -34,7 +33,6 @@ class ReadHashFromMixSriTest extends TestCase
     public function it_fallback_to_generating_to_hash_if_not_present_in_the_mix_sri_file()
     {
         config([
-            'subresource-integrity.base_path' => './tests/',
             'subresource-integrity.mix_sri_path' => './tests/files/mix-sri.json',
         ]);
 

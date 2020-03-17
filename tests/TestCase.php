@@ -13,4 +13,15 @@ abstract class TestCase extends Orchestra
             SriServiceProvider::class,
         ];
     }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        
+        config([
+            'app.env' => 'production',
+            'subresource-integrity.base_path' => './tests/',
+            'subresource-integrity.enabled_env' => ['production'],
+        ]);
+    }
 }

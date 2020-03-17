@@ -32,6 +32,10 @@ class Sri
 
     public function hash(string $path): string
     {
+        if(!$this->isInEnabledEnv()){
+            return '';
+        }
+
         if ($this->existsInConfigFile($path)) {
             return config('subresource-integrity.hashes')[$path];
         }
@@ -86,5 +90,10 @@ class Sri
     private function jsonFilePath(): string
     {
         return config('subresource-integrity.mix_sri_path');
+    }
+
+    private function isInEnabledEnv(): bool
+    {
+        return in_array(config('app.env'), config('subresource-integrity.enabled_env'));
     }
 }
