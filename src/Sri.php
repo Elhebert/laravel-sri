@@ -74,10 +74,10 @@ class Sri
                 $path = Str::startsWith($path, '/') ? $path : "/{$path}";
                 $path = parse_url($path, PHP_URL_PATH);
 
-                $fileContent = file_get_contents(config('subresource-integrity.base_path') . "{$path}");
+                $fileContent = file_get_contents(config('subresource-integrity.base_path')."{$path}");
             }
 
-            if (!$fileContent) {
+            if (! $fileContent) {
                 throw new \Exception('file not found');
             }
         } catch (Exception $exception) {
