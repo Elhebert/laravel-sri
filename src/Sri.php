@@ -19,7 +19,7 @@ class Sri
 
     public function html(string $path, bool $useCredentials = false): string
     {
-        if (! $this->isInEnabled()) {
+        if (! config('subresource-integrity.enabled')) {
             return '';
         }
 
@@ -36,7 +36,7 @@ class Sri
 
     public function hash(string $path): string
     {
-        if (! $this->isInEnabled()) {
+        if (! config('subresource-integrity.enabled')) {
             return '';
         }
 
@@ -94,10 +94,5 @@ class Sri
     private function jsonFilePath(): string
     {
         return config('subresource-integrity.mix_sri_path');
-    }
-
-    private function isInEnabled(): bool
-    {
-        return config('subresource-integrity.enabled');
     }
 }
