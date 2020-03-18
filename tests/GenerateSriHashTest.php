@@ -62,7 +62,7 @@ class GenerateSriHashTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_an_empty_string_in_disabled_environments()
+    public function it_returns_an_empty_string_when_disabled()
     {
         config([
             'subresource-integrity.enabled' => false,
