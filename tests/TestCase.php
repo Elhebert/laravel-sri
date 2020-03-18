@@ -13,4 +13,13 @@ abstract class TestCase extends Orchestra
             SriServiceProvider::class,
         ];
     }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        config([
+            'subresource-integrity.base_path' => './tests/',
+        ]);
+    }
 }

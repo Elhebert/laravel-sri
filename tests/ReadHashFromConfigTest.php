@@ -22,7 +22,6 @@ class ReadHashFromConfigTest extends TestCase
     public function it_fallback_to_generating_to_hash_if_not_present_in_the_config()
     {
         config([
-            'subresource-integrity.base_path' => './tests/',
             'subresource-integrity.hashes' => [
                 'css/app.css' => 'this-hash-is-valid',
             ],

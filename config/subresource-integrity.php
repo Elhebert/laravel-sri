@@ -52,4 +52,18 @@ return [
     'hashes' => [
         // 'URL' => 'your_hash',
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Enable Subresource Integrity
+    |--------------------------------------------------------------------------
+    |
+    | This option determines if it should enable the package. Disabled this in
+    | local environment specially if you're using BrowserSync or any like it.
+    | Defaults to `true`.
+    |
+    */
+
+    'enabled' => env('SRI_ENABLED', true),
+
 ];

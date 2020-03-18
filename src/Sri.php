@@ -19,6 +19,10 @@ class Sri
 
     public function html(string $path, bool $useCredentials = false): string
     {
+        if (! config('subresource-integrity.enabled')) {
+            return '';
+        }
+
         try {
             $integrity = $this->hash($path);
         } catch (\Exception $e) {
@@ -32,6 +36,10 @@ class Sri
 
     public function hash(string $path): string
     {
+        if (! config('subresource-integrity.enabled')) {
+            return '';
+        }
+
         if ($this->existsInConfigFile($path)) {
             return config('subresource-integrity.hashes')[$path];
         }
