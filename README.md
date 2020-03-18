@@ -42,7 +42,7 @@ php artisan vendor:publish --provider="Elhebert\SubresourceIntegrity\SriServiceP
 | algorithm    | sha256                        | sha256, sha384 and sha512                      |
 | hashes       | `[]`                          | (see "[How to get a hash](#how-to-get-a-hash)) |
 | mix_sri_path | `public_path('mix-sri.json')` | (see "[How to get a hash](#how-to-get-a-hash)) |
-| enabled_env  | `[production]`                |                                                |
+| enabled      | `true`                        |                                                |
 
 ## Usage
 

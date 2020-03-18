@@ -55,15 +55,15 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Enabled Environments
+    | Enable Subresource Integrity
     |--------------------------------------------------------------------------
     |
-    | These are the application environments enabled to generate hash. Don't
-    | include your local environment specially if you're using BrowserSync or
-    | any like it.
+    | This option determines if it should enable the package. Disabled this in
+    | local environment specially if you're using BrowserSync or any like it.
+    | Defaults to `true`.
     |
     */
 
-    'enabled_env' => ['production'],
+    'enabled' => env('SRI_ENABLED', true),
 
 ];

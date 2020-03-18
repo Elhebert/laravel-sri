@@ -19,6 +19,10 @@ class Sri
 
     public function html(string $path, bool $useCredentials = false): string
     {
+        if (! $this->isInEnabled()) {
+            return null;
+        }
+        
         try {
             $integrity = $this->hash($path);
         } catch (\Exception $e) {
@@ -32,8 +36,8 @@ class Sri
 
     public function hash(string $path): string
     {
-        if (! $this->isInEnabledEnv()) {
-            return '';
+        if (! $this->isInEnabled()) {
+            return null;
         }
 
         if ($this->existsInConfigFile($path)) {
@@ -92,8 +96,8 @@ class Sri
         return config('subresource-integrity.mix_sri_path');
     }
 
-    private function isInEnabledEnv(): bool
+    private function isInEnabled(): bool
     {
-        return in_array(config('app.env'), config('subresource-integrity.enabled_env'));
+        return config('subresource-integrity.enabled');
     }
 }

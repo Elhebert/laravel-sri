@@ -65,7 +65,7 @@ class GenerateSriHashTest extends TestCase
     public function it_returns_an_empty_string_in_disabled_environments()
     {
         config([
-            'app.env' => 'local',
+            'subresource-integrity.enabled' => 'false',
         ]);
 
         $this->assertEquals('', Sri::hash('files/app.css'));

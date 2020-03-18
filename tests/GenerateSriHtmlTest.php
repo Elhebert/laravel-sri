@@ -35,7 +35,7 @@ class GenerateSriHtmlTest extends TestCase
     public function it_returns_an_empty_string_in_disabled_environments()
     {
         config([
-            'app.env' => 'local',
+            'subresource-integrity.enabled' => false,
         ]);
 
         $hash = hash('sha256', file_get_contents('./tests/files/app.css'), true);
