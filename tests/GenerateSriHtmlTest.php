@@ -41,6 +41,6 @@ class GenerateSriHtmlTest extends TestCase
         $hash = hash('sha256', file_get_contents('./tests/files/app.css'), true);
         $base64Hash = base64_encode($hash);
 
-        $this->assertStringContainsString("integrity=''", Sri::html('files/app.css', true));
+        $this->assertEquals('', Sri::html('files/app.css', true));
     }
 }

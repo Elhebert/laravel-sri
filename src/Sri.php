@@ -20,9 +20,9 @@ class Sri
     public function html(string $path, bool $useCredentials = false): string
     {
         if (! $this->isInEnabled()) {
-            return null;
+            return '';
         }
-        
+
         try {
             $integrity = $this->hash($path);
         } catch (\Exception $e) {
@@ -37,7 +37,7 @@ class Sri
     public function hash(string $path): string
     {
         if (! $this->isInEnabled()) {
-            return null;
+            return '';
         }
 
         if ($this->existsInConfigFile($path)) {
