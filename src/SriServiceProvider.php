@@ -63,7 +63,7 @@ class SriServiceProvider extends ServiceProvider
 
     private function parseAndGenerateUrl(string $path, string $href, bool $crossOrigin): HtmlString
     {
-        $integrity = SriFacade::html($href, $crossOrigin);
+        $integrity = SriFacade::html($path, $crossOrigin);
 
         if (Str::endsWith($path, 'css')) {
             return $this->generateCssUrl($href, $integrity);
