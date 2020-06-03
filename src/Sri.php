@@ -3,6 +3,7 @@
 namespace Elhebert\SubresourceIntegrity;
 
 use Exception;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 
 class Sri
@@ -17,21 +18,21 @@ class Sri
             : 'sha256';
     }
 
-    public function html(string $path, bool $useCredentials = false): string
+    public function html(string $path, bool $useCredentials = false): HtmlString
     {
         if (! config('subresource-integrity.enabled')) {
-            return '';
+            return new HtmlString('');
         }
 
         try {
             $integrity = $this->hash($path);
         } catch (\Exception $e) {
-            return '';
+            return new HtmlString('');
         }
 
         $crossOrigin = $useCredentials ? 'use-credentials' : 'anonymous';
 
-        return "integrity='{$integrity}' crossorigin='{$crossOrigin}'";
+        return new HtmlString("integrity=\"{$integrity}\" crossorigin=\"{$crossOrigin}\"");
     }
 
     public function hash(string $path): string
