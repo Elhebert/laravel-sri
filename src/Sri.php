@@ -32,7 +32,7 @@ class Sri
 
         $crossOrigin = $useCredentials ? 'use-credentials' : 'anonymous';
 
-        return new HtmlString("integrity=\"{$integrity}\" crossorigin=\"{$crossOrigin}\"");
+        return new HtmlString('integrity="' . $integrity . '" crossorigin="' . $crossOrigin . '"');
     }
 
     public function hash(string $path): string
