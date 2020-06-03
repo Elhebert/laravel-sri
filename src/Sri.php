@@ -46,7 +46,7 @@ class Sri
         }
 
         if ($this->mixFileExists()) {
-            $json = json_decode(file_get_contents($this->jsonFilePath()));
+            $json         = json_decode(file_get_contents($this->jsonFilePath()));
             $prefixedPath = Str::startsWith($path, '/') ? $path : "/{$path}";
 
             if (property_exists($json, $prefixedPath)) {
@@ -54,7 +54,7 @@ class Sri
             }
         }
 
-        $hash = hash($this->algorithm, $this->getFileContent($path), true);
+        $hash       = hash($this->algorithm, $this->getFileContent($path), true);
         $base64Hash = base64_encode($hash);
 
         return "{$this->algorithm}-{$base64Hash}";
@@ -79,7 +79,7 @@ class Sri
                 $path = Str::startsWith($path, '/') ? $path : "/{$path}";
                 $path = parse_url($path, PHP_URL_PATH);
 
-                $fileContent = file_get_contents(config('subresource-integrity.base_path')."{$path}");
+                $fileContent = file_get_contents(config('subresource-integrity.base_path') . "{$path}");
             }
 
             if (! $fileContent) {
