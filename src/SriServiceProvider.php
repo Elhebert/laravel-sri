@@ -3,9 +3,7 @@
 namespace Elhebert\SubresourceIntegrity;
 
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\HtmlString;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
 
 class SriServiceProvider extends ServiceProvider
 {

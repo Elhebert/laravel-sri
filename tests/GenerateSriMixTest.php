@@ -15,7 +15,7 @@ class GenerateSriMixTest extends TestCase
             'view.paths' => ['./tests/files'],
         ]);
 
-        $this->app->instance('path.public', __DIR__ . '/files');
+        $this->app->instance('path.public', __DIR__.'/files');
     }
 
     /** @test */
