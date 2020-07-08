@@ -1,0 +1,1 @@
+@assetSri($asset, $useCredentials, $attributes)
