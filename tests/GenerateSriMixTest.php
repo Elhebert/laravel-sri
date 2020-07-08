@@ -30,7 +30,7 @@ class GenerateSriMixTest extends TestCase
         $mix_string = Sri::mix('css/app.css', true);
 
         $this->assertStringContainsString('this-hash-is-valid', $mix_string);
-        $this->assertStringContainsString("crossorigin='use-credentials'", $mix_string);
+        $this->assertStringContainsString('crossorigin="use-credentials"', $mix_string);
     }
 
     /** @test */
@@ -48,7 +48,7 @@ class GenerateSriMixTest extends TestCase
         $mix_string = Sri::mix('css/app.css', true, 'rel="stylesheet"');
 
         $this->assertStringContainsString('this-hash-is-valid', $mix_string);
-        $this->assertStringContainsString("crossorigin='use-credentials'", $mix_string);
+        $this->assertStringContainsString('crossorigin="use-credentials"', $mix_string);
         $this->assertStringContainsString('rel="stylesheet"', $mix_string);
     }
 
@@ -64,7 +64,7 @@ class GenerateSriMixTest extends TestCase
         $mix_string = Sri::mix('js/app.js', true);
 
         $this->assertStringContainsString('this-hash-is-valid', $mix_string);
-        $this->assertStringContainsString("crossorigin='use-credentials'", $mix_string);
+        $this->assertStringContainsString('crossorigin="use-credentials"', $mix_string);
     }
 
     /** @test */
@@ -82,7 +82,7 @@ class GenerateSriMixTest extends TestCase
         $mix_string = Sri::mix('js/app.js', true, 'type="application/javascript" async');
 
         $this->assertStringContainsString('this-hash-is-valid', $mix_string);
-        $this->assertStringContainsString("crossorigin='use-credentials'", $mix_string);
+        $this->assertStringContainsString('crossorigin="use-credentials"', $mix_string);
         $this->assertStringContainsString('type="application/javascript" async', $mix_string);
     }
 

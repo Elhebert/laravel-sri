@@ -22,7 +22,7 @@ class GenerateSriAssetTest extends TestCase
         $hash = hash('sha256', file_get_contents('./tests/files/app.css'), true);
         $base64Hash = base64_encode($hash);
 
-        $this->assertStringContainsString("integrity='sha256-{$base64Hash}'", Sri::asset('app.css'));
+        $this->assertStringContainsString('integrity="sha256-'.$base64Hash.'"', Sri::asset('app.css'));
     }
 
     /** @test */
@@ -33,8 +33,8 @@ class GenerateSriAssetTest extends TestCase
 
         $asset_string = Sri::asset('app.css', true);
 
-        $this->assertStringContainsString("integrity='sha256-{$base64Hash}'", $asset_string);
-        $this->assertStringContainsString("crossorigin='use-credentials'", $asset_string);
+        $this->assertStringContainsString('integrity="sha256-'.$base64Hash.'"', $asset_string);
+        $this->assertStringContainsString('crossorigin="use-credentials"', $asset_string);
     }
 
     /** @test */
@@ -45,7 +45,7 @@ class GenerateSriAssetTest extends TestCase
 
         $asset_string = Sri::asset('app.css', false, 'rel="stylesheet"');
 
-        $this->assertStringContainsString("integrity='sha256-{$base64Hash}'", $asset_string);
+        $this->assertStringContainsString('integrity="sha256-'.$base64Hash.'"', $asset_string);
         $this->assertStringContainsString('rel="stylesheet"', $asset_string);
     }
 
@@ -57,8 +57,8 @@ class GenerateSriAssetTest extends TestCase
 
         $asset_string = Sri::asset('app.css', true, 'rel="stylesheet"');
 
-        $this->assertStringContainsString("integrity='sha256-{$base64Hash}'", $asset_string);
-        $this->assertStringContainsString("crossorigin='use-credentials'", $asset_string);
+        $this->assertStringContainsString('integrity="sha256-'.$base64Hash.'"', $asset_string);
+        $this->assertStringContainsString('crossorigin="use-credentials"', $asset_string);
         $this->assertStringContainsString('rel="stylesheet"', $asset_string);
     }
 
@@ -68,7 +68,7 @@ class GenerateSriAssetTest extends TestCase
         $hash = hash('sha256', file_get_contents('./tests/files/app.js'), true);
         $base64Hash = base64_encode($hash);
 
-        $this->assertStringContainsString("integrity='sha256-{$base64Hash}'", Sri::asset('app.js'));
+        $this->assertStringContainsString('integrity="sha256-'.$base64Hash.'"', Sri::asset('app.js'));
     }
 
     /** @test */
@@ -79,8 +79,8 @@ class GenerateSriAssetTest extends TestCase
 
         $asset_string = Sri::asset('app.js', true);
 
-        $this->assertStringContainsString("integrity='sha256-{$base64Hash}'", $asset_string);
-        $this->assertStringContainsString("crossorigin='use-credentials'", $asset_string);
+        $this->assertStringContainsString('integrity="sha256-'.$base64Hash.'"', $asset_string);
+        $this->assertStringContainsString('crossorigin="use-credentials"', $asset_string);
     }
 
     /** @test */
@@ -91,7 +91,7 @@ class GenerateSriAssetTest extends TestCase
 
         $asset_string = Sri::asset('app.js', false, 'type="application/javascript" async');
 
-        $this->assertStringContainsString("integrity='sha256-{$base64Hash}'", $asset_string);
+        $this->assertStringContainsString('integrity="sha256-'.$base64Hash.'"', $asset_string);
         $this->assertStringContainsString('type="application/javascript" async', $asset_string);
     }
 
@@ -103,8 +103,8 @@ class GenerateSriAssetTest extends TestCase
 
         $asset_string = Sri::asset('app.js', true, 'type="application/javascript" async');
 
-        $this->assertStringContainsString("integrity='sha256-{$base64Hash}'", $asset_string);
-        $this->assertStringContainsString("crossorigin='use-credentials'", $asset_string);
+        $this->assertStringContainsString('integrity="sha256-'.$base64Hash.'"', $asset_string);
+        $this->assertStringContainsString('crossorigin="use-credentials"', $asset_string);
         $this->assertStringContainsString('type="application/javascript" async', $asset_string);
     }
 

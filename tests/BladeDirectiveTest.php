@@ -50,6 +50,6 @@ class BladeDirectiveTest extends TestCase
             'attributes' => '',
         ])->render();
 
-        $this->assertStringContainsString("integrity='sha256-{$base64Hash}'", $view);
+        $this->assertStringContainsString('integrity="sha256-'.$base64Hash.'"', $view);
     }
 }
