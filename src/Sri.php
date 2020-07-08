@@ -60,6 +60,41 @@ class Sri
         return "{$this->algorithm}-{$base64Hash}";
     }
 
+    public function mix(string $path, bool $useCredentials = false, string $attributes = ''): string
+    {
+        if (Str::startsWith($path, ['http', 'https', '//'])) {
+            $href = $path;
+        } else {
+            $href = mix($path);
+        }
+
+        return $this->generateHtmlTag($href, $path, $useCredentials, $attributes);
+    }
+
+    public function asset(string $path, bool $useCredentials = false, string $attributes = ''): string
+    {
+        if (Str::startsWith($path, ['http', 'https', '//'])) {
+            $href = $path;
+        } else {
+            $href = asset($path);
+        }
+
+        return $this->generateHtmlTag($href, $path, $useCredentials, $attributes);
+    }
+
+    private function generateHtmlTag(string $href, string $path, bool $useCredentials, string $attributes): string
+    {
+        $integrity = $this->html($path, $useCredentials);
+
+        if (Str::endsWith($path, 'css')) {
+            return "<script src='{$href}' {$integrity} {$attributes}></script>";
+        } elseif (Str::endsWith($path, 'js')) {
+            return "<link href='{$href}' rel='stylesheet' {$integrity} {$attributes}>";
+        } else {
+            throw new \Exception('Invalid file');
+        }
+    }
+
     private function existsInConfigFile(string $path): bool
     {
         return array_key_exists($path, config('subresource-integrity.hashes'));
