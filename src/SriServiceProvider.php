@@ -3,9 +3,7 @@
 namespace Elhebert\SubresourceIntegrity;
 
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\HtmlString;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
 
 class SriServiceProvider extends ServiceProvider
 {
@@ -29,58 +27,12 @@ class SriServiceProvider extends ServiceProvider
             __DIR__.'/../config/subresource-integrity.php' => config_path('subresource-integrity.php'),
         ]);
 
-        Blade::directive('mixSri', function (string $path, bool $crossOrigin = false) {
-            $path = $this->removeQuotes($path);
-
-            if (Str::startsWith($path, ['http', 'https', '//'])) {
-                $href = $path;
-            } else {
-                $href = mix($path);
-            }
-
-            return $this->parseAndGenerateUrl($path, $href, $crossOrigin);
+        Blade::directive('mixSri', function ($arguments) {
+            return "<?php echo app('".Sri::class."')->mix({$arguments}) ?>";
         });
 
-        Blade::directive('assetSri', function (string $path, bool $crossOrigin = false) {
-            $path = $this->removeQuotes($path);
-
-            if (Str::startsWith($path, ['http', 'https', '//'])) {
-                $href = $path;
-            } else {
-                $href = asset($path);
-            }
-
-            return $this->parseAndGenerateUrl($path, $href, $crossOrigin);
+        Blade::directive('assetSri', function ($arguments) {
+            return "<?php echo app('".Sri::class."')->asset({$arguments}) ?>";
         });
-    }
-
-    private function removeQuotes(string $path): string
-    {
-        $values = ['\'', '"'];
-
-        return str_replace($values, '', $path);
-    }
-
-    private function parseAndGenerateUrl(string $path, string $href, bool $crossOrigin): HtmlString
-    {
-        $integrity = SriFacade::html($path, $crossOrigin);
-
-        if (Str::endsWith($path, 'css')) {
-            return $this->generateCssUrl($href, $integrity);
-        } elseif (Str::endsWith($path, 'js')) {
-            return $this->generateJsUrl($href, $integrity);
-        } else {
-            throw new \Exception('Invalid file');
-        }
-    }
-
-    private function generateJsUrl(string $href, string $integrity): HtmlString
-    {
-        return new HtmlString("<script src='{$href}' {$integrity}></script>");
-    }
-
-    private function generateCssUrl(string $href, string $integrity): HtmlString
-    {
-        return new HtmlString("<link href='{$href}' rel='stylesheet' {$integrity}>");
     }
 }
