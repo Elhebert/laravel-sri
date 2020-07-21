@@ -87,9 +87,9 @@ class Sri
         $integrity = $this->html($path, $useCredentials);
 
         if (Str::endsWith($path, 'css')) {
-            return "<script src='{$href}' {$integrity} {$attributes}></script>";
-        } elseif (Str::endsWith($path, 'js')) {
             return "<link href='{$href}' rel='stylesheet' {$integrity} {$attributes}>";
+        } elseif (Str::endsWith($path, 'js')) {
+            return "<script src='{$href}' {$integrity} {$attributes}></script>";
         } else {
             throw new \Exception('Invalid file');
         }
