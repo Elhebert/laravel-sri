@@ -4,6 +4,10 @@ namespace Elhebert\SubresourceIntegrity;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Elhebert\SubresourceIntegrity\Components\Link;
+use Elhebert\SubresourceIntegrity\Components\Script;
+use Elhebert\SubresourceIntegrity\Components\LinkMix;
+use Elhebert\SubresourceIntegrity\Components\ScriptMix;
 
 class SriServiceProvider extends ServiceProvider
 {
@@ -12,8 +16,6 @@ class SriServiceProvider extends ServiceProvider
         $this->app->singleton(Sri::class, function () {
             return new Sri(config('subresource-integrity.algorithm'));
         });
-
-        $this->app->alias(Sri::class, 'sri');
 
         $this->mergeConfigFrom(
             __DIR__.'/../config/subresource-integrity.php',
@@ -27,12 +29,9 @@ class SriServiceProvider extends ServiceProvider
             __DIR__.'/../config/subresource-integrity.php' => config_path('subresource-integrity.php'),
         ]);
 
-        Blade::directive('mixSri', function ($arguments) {
-            return "<?php echo app('".Sri::class."')->mix({$arguments}) ?>";
-        });
-
-        Blade::directive('assetSri', function ($arguments) {
-            return "<?php echo app('".Sri::class."')->asset({$arguments}) ?>";
-        });
+        Blade::component('sri.script', Script::class);
+        Blade::component('sri.script.mix', ScriptMix::class);
+        Blade::component('sri.link', Link::class);
+        Blade::component('sri.link.mix', LinkMix::class);
     }
 }
