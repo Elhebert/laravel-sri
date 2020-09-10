@@ -4,7 +4,7 @@
 namespace Elhebert\SubresourceIntegrity\Components;
 
 use Illuminate\View\Component;
-use Elhebert\SubresourceIntegrity\Sri;
+use Elhebert\SubresourceIntegrity\SriFacade as Sri;
 
 class Link extends Component
 {
