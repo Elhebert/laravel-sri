@@ -2,8 +2,8 @@
 
 namespace Elhebert\SubresourceIntegrity\Components;
 
-use Illuminate\View\Component;
 use Elhebert\SubresourceIntegrity\SriFacade as Sri;
+use Illuminate\View\Component;
 
 class Script extends Component
 {
