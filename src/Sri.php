@@ -8,8 +8,11 @@ use Illuminate\Support\Str;
 
 class Sri
 {
-    private string $algorithm;
-    private string $jsonFilePath;
+    /** @var string */
+    private $algorithm;
+
+    /** @var string */
+    private $jsonFilePath;
 
     public function __construct(string $algorithm)
     {

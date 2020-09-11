@@ -7,8 +7,11 @@ use Illuminate\View\Component;
 
 class Link extends Component
 {
-    public string $href;
-    public bool $mix = false;
+    /** @var string */
+    public $href;
+
+    /** @var bool */
+    public $mix = false;
 
     public function __construct(string $href, bool $mix = false)
     {
