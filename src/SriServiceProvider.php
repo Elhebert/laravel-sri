@@ -2,10 +2,10 @@
 
 namespace Elhebert\SubresourceIntegrity;
 
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\ServiceProvider;
 use Elhebert\SubresourceIntegrity\Components\Link;
 use Elhebert\SubresourceIntegrity\Components\Script;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\ServiceProvider;
 
 class SriServiceProvider extends ServiceProvider
 {
