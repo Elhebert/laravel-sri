@@ -1,4 +1,3 @@
-
 <?php
 
 namespace Elhebert\SubresourceIntegrity\Components;
@@ -8,17 +7,29 @@ use Elhebert\SubresourceIntegrity\SriFacade as Sri;
 
 class Link extends Component
 {
-    private string $href;
+    public string $href;
+    public bool $mix = false;
 
-    public function __construct(string $href)
+    public function __construct(string $href, bool $mix = false)
     {
         $this->href = $href;
+        $this->mix = $mix;
+    }
+
+    public function integrity(): string
+    {
+        return Sri::hash($this->href);
+    }
+
+    public function path(): string
+    {
+        return $this->mix ? mix($this->href) : asset($this->href);
     }
 
     public function render(): string
     {
         return <<<'blade'
-            <link href="{{ asset($this->href) }} integrity="{{ Sri::hash($this->href) }}" {{ $this->attributes }} />
+            <link href="{{ $path() }}" integrity="{{ $integrity() }}" {{ $attributes }} />
         blade;
     }
 }

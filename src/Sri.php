@@ -8,14 +8,15 @@ use Illuminate\Support\Str;
 
 class Sri
 {
-    /** @var string */
-    private $algorithm;
+    private string $algorithm;
+    private string $jsonFilePath;
 
     public function __construct(string $algorithm)
     {
         $this->algorithm = in_array($algorithm, ['sha256', 'sha384', 'sha512'])
             ? $algorithm
             : 'sha256';
+        $this->jsonFilePath = config('subresource-integrity.mix_sri_path');
     }
 
     public function html(string $path, bool $useCredentials = false): HtmlString
@@ -50,7 +51,7 @@ class Sri
         }
 
         if ($this->mixFileExists()) {
-            $json = json_decode(file_get_contents($this->jsonFilePath()));
+            $json = json_decode(file_get_contents($this->jsonFilePath));
             $prefixedPath = Str::startsWith($path, '/') ? $path : "/{$path}";
 
             if (property_exists($json, $prefixedPath)) {
@@ -64,41 +65,6 @@ class Sri
         return "{$this->algorithm}-{$base64Hash}";
     }
 
-    public function mix(string $path, bool $useCredentials = false, string $attributes = ''): string
-    {
-        if (Str::startsWith($path, ['http', 'https', '//'])) {
-            $href = $path;
-        } else {
-            $href = mix($path);
-        }
-
-        return $this->generateHtmlTag($href, $path, $useCredentials, $attributes);
-    }
-
-    public function asset(string $path, bool $useCredentials = false, string $attributes = ''): string
-    {
-        if (Str::startsWith($path, ['http', 'https', '//'])) {
-            $href = $path;
-        } else {
-            $href = asset($path);
-        }
-
-        return $this->generateHtmlTag($href, $path, $useCredentials, $attributes);
-    }
-
-    private function generateHtmlTag(string $href, string $path, bool $useCredentials, string $attributes): string
-    {
-        $integrity = $this->html($path, $useCredentials);
-
-        if (Str::endsWith($path, 'css')) {
-            return "<link href='{$href}' rel='stylesheet' {$integrity} {$attributes}>";
-        } elseif (Str::endsWith($path, 'js')) {
-            return "<script src='{$href}' {$integrity} {$attributes}></script>";
-        } else {
-            throw new \Exception('Invalid file');
-        }
-    }
-
     private function existsInConfigFile(string $path): bool
     {
         return array_key_exists($path, config('subresource-integrity.hashes'));
@@ -106,7 +72,7 @@ class Sri
 
     private function mixFileExists(): bool
     {
-        return file_exists($this->jsonFilePath());
+        return file_exists($this->jsonFilePath);
     }
 
     private function getFileContent(string $path): string
@@ -129,10 +95,5 @@ class Sri
         }
 
         return $fileContent;
-    }
-
-    private function jsonFilePath(): string
-    {
-        return config('subresource-integrity.mix_sri_path');
     }
 }
