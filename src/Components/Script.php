@@ -7,8 +7,11 @@ use Illuminate\View\Component;
 
 class Script extends Component
 {
-    public string $src;
-    public bool $mix;
+    /** @var string */
+    public $src;
+
+    /** @var bool */
+    public $mix;
 
     public function __construct(string $src, bool $mix = false)
     {
