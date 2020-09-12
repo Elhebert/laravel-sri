@@ -17,5 +17,4 @@ interface SriCacheManager extends \Psr\SimpleCache\CacheInterface
      * @return bool
      */
     public function updateCacheFile();
-
 }
