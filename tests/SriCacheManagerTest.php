@@ -3,7 +3,6 @@
 namespace Elhebert\SubresourceIntegrity\Tests;
 
 use Elhebert\SubresourceIntegrity\Contracts\SriCacheManager;
-use Illuminate\Support\Env;
 
 class SriCacheManagerTest extends TestCase
 {

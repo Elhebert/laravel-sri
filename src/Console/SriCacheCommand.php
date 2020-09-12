@@ -37,6 +37,5 @@ class SriCacheCommand extends Command
      */
     public function handle()
     {
-
     }
 }

@@ -59,7 +59,7 @@ class Sri
             }
         }
 
-        if ($integrity = $this->sriCache->get($path)){
+        if ($integrity = $this->sriCache->get($path)) {
             return $integrity;
         }
 
@@ -67,7 +67,7 @@ class Sri
         $base64Hash = base64_encode($hash);
 
         $integrity = "{$this->algorithm}-{$base64Hash}";
-        
+
         $this->sriCache->set($path, $integrity);
 
         return $integrity;

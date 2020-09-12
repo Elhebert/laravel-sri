@@ -2,10 +2,10 @@
 
 namespace Elhebert\SubresourceIntegrity;
 
-use Elhebert\SubresourceIntegrity\Exceptions\InvalidArgumentException;
 use Elhebert\SubresourceIntegrity\Contracts\SriCacheManager as SriCacheManagerContract;
-use Illuminate\Foundation\Application;
+use Elhebert\SubresourceIntegrity\Exceptions\InvalidArgumentException;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Env;
 use Illuminate\Support\Str;
@@ -21,14 +21,14 @@ class SriCacheManager implements SriCacheManagerContract
 
     /**
      * The application instance.
-     * 
+     *
      * @var \Illuminate\Foundation\Application
      */
     protected $app;
 
     /**
      * The sri cache contents.
-     * 
+     *
      * @var array
      */
     private $cacheContents;
@@ -58,8 +58,8 @@ class SriCacheManager implements SriCacheManagerContract
         $cachePath = $this->getCachedSriPath();
         $cacheDirectory = dirname($cachePath);
         
-        if(! $this->files->isDirectory($cacheDirectory)){
-            $this->files->makeDirectory($cacheDirectory, 0755,  true, true);
+        if (! $this->files->isDirectory($cacheDirectory)) {
+            $this->files->makeDirectory($cacheDirectory, 0755, true, true);
         }
 
         return $this->files->put(
