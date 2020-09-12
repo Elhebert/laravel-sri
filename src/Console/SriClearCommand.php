@@ -2,7 +2,7 @@
 
 namespace Elhebert\SubresourceIntegrity\Console;
 
-use \Elhebert\SubresourceIntegrity\Contracts\SriCacheManager;
+use Elhebert\SubresourceIntegrity\Contracts\SriCacheManager;
 use Illuminate\Console\Command;
 
 class SriClearCommand extends Command
