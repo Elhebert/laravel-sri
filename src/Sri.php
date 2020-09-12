@@ -44,6 +44,10 @@ class Sri
         if ($this->existsInConfigFile($path)) {
             return config('subresource-integrity.hashes')[$path];
         }
+        
+        if(Str::startsWith($path, ['http', 'https', '//']) && ! config('subresource-integrity.dangerously_allow_third_party_assets')){
+            return '';
+        }
 
         if ($this->mixFileExists()) {
             $json = json_decode(file_get_contents($this->jsonFilePath()));

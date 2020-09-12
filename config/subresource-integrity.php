@@ -66,4 +66,18 @@ return [
 
     'enabled' => env('SRI_ENABLED', true),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Dangerously Allow Third Party Assets
+    |--------------------------------------------------------------------------
+    |
+    | This option determines if it should generate a hash for third party 
+    | assets. We highly recommend you to set this to false and compute the hash
+    | for this assets manually then add them to the "hashes" config found in
+    | this file.
+    |
+    */
+
+    'dangerously_allow_third_party_assets' => false,
+
 ];
