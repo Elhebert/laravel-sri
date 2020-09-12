@@ -57,7 +57,7 @@ class SriCacheManager implements SriCacheManagerContract
     {
         $cachePath = $this->getCachedSriPath();
         $cacheDirectory = dirname($cachePath);
-        
+
         if (! $this->files->isDirectory($cacheDirectory)) {
             $this->files->makeDirectory($cacheDirectory, 0755, true, true);
         }
