@@ -2,6 +2,7 @@
 
 namespace Elhebert\SubresourceIntegrity;
 
+use Elhebert\SubresourceIntegrity\Contracts\SriCacheManager;
 use Exception;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
@@ -11,11 +12,15 @@ class Sri
     /** @var string */
     private $algorithm;
 
-    public function __construct(string $algorithm)
+    /** @var \Elhebert\SubresourceIntegrity\Contracts\SriCacheManager */
+    protected $sriCache;
+
+    public function __construct(string $algorithm, SriCacheManager $sriCache)
     {
         $this->algorithm = in_array($algorithm, ['sha256', 'sha384', 'sha512'])
             ? $algorithm
             : 'sha256';
+        $this->sriCache = $sriCache;
     }
 
     public function html(string $path, bool $useCredentials = false): HtmlString
@@ -54,10 +59,18 @@ class Sri
             }
         }
 
+        if ($integrity = $this->sriCache->get($path)){
+            return $integrity;
+        }
+
         $hash = hash($this->algorithm, $this->getFileContent($path), true);
         $base64Hash = base64_encode($hash);
 
-        return "{$this->algorithm}-{$base64Hash}";
+        $integrity = "{$this->algorithm}-{$base64Hash}";
+        
+        $this->sriCache->set($path, $integrity);
+
+        return $integrity;
     }
 
     public function mix(string $path, bool $useCredentials = false, string $attributes = ''): string
