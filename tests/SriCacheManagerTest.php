@@ -3,6 +3,7 @@
 namespace Elhebert\SubresourceIntegrity\Tests;
 
 use Elhebert\SubresourceIntegrity\Contracts\SriCacheManager;
+use Elhebert\SubresourceIntegrity\Exceptions\InvalidArgumentException;
 
 class SriCacheManagerTest extends TestCase
 {
@@ -127,7 +128,7 @@ class SriCacheManagerTest extends TestCase
     /** @test */
     public function it_throws_exception_when_getting_multiple_values_with_invalid_argument_given()
     {
-        $this->expectException(\Elhebert\SubresourceIntegrity\Exceptions\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $this->sriCache->getMultiple('invalid');
     }
@@ -150,7 +151,7 @@ class SriCacheManagerTest extends TestCase
     /** @test */
     public function it_throws_exception_when_setting_multiple_values_with_invalid_argument_given()
     {
-        $this->expectException(\Elhebert\SubresourceIntegrity\Exceptions\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $this->sriCache->setMultiple('invalid');
     }
@@ -179,7 +180,7 @@ class SriCacheManagerTest extends TestCase
     /** @test */
     public function it_throws_exception_when_deleting_multiple_values_with_invalid_argument_given()
     {
-        $this->expectException(\Elhebert\SubresourceIntegrity\Exceptions\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $this->sriCache->deleteMultiple('invalid');
     }

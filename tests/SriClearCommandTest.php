@@ -3,7 +3,6 @@
 namespace Elhebert\SubresourceIntegrity\Tests;
 
 use Elhebert\SubresourceIntegrity\Contracts\SriCacheManager;
-use Elhebert\SubresourceIntegrity\Exceptions\InvalidArgumentException;
 
 class SriClearCommandTest extends TestCase
 {

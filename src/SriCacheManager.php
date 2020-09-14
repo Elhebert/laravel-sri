@@ -66,7 +66,7 @@ class SriCacheManager implements SriCacheManagerContract
 
     /**
      * Update the sri cache file.
-     * 
+     *
      * @return void
      */
     private function updateCacheFile()
@@ -74,7 +74,7 @@ class SriCacheManager implements SriCacheManagerContract
         $cachePath = $this->getCachedSriPath();
         $cacheDirectory = dirname($cachePath);
 
-        if (!$this->files->isDirectory($cacheDirectory)) {
+        if (! $this->files->isDirectory($cacheDirectory)) {
             $this->files->makeDirectory($cacheDirectory, 0755, true, true);
         }
 
@@ -151,7 +151,7 @@ class SriCacheManager implements SriCacheManagerContract
      */
     public function getMultiple($keys, $default = null)
     {
-        if (!is_array($keys)) {
+        if (! is_array($keys)) {
             throw new InvalidArgumentException;
         }
 
@@ -175,7 +175,7 @@ class SriCacheManager implements SriCacheManagerContract
      */
     public function setMultiple($values)
     {
-        if (!is_array($values) || !Arr::isAssoc($values)) {
+        if (! is_array($values) || ! Arr::isAssoc($values)) {
             throw new InvalidArgumentException;
         }
 
@@ -197,7 +197,7 @@ class SriCacheManager implements SriCacheManagerContract
      */
     public function deleteMultiple($keys)
     {
-        if (!is_array($keys)) {
+        if (! is_array($keys)) {
             throw new InvalidArgumentException;
         }
 
