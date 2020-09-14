@@ -105,7 +105,7 @@ class SriCacheManager implements SriCacheManagerContract
      *
      * @return bool
      */
-    public function set($key, $value)
+    public function set($key, $value, $ttl = null)
     {
         $this->cacheContents[$key] = $value;
 
@@ -173,7 +173,7 @@ class SriCacheManager implements SriCacheManagerContract
      *
      * @throws \Elhebert\SubresourceIntegrity\Exceptions\InvalidArgumentException
      */
-    public function setMultiple($values)
+    public function setMultiple($values, $ttl = null)
     {
         if (! is_array($values) || ! Arr::isAssoc($values)) {
             throw new InvalidArgumentException;
