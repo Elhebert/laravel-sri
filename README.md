@@ -36,13 +36,14 @@ php artisan vendor:publish --provider="Elhebert\SubresourceIntegrity\SriServiceP
 
 ### Content of the configuration
 
-| key          | default value                 | possible values                                |
-| ------------ | ----------------------------- | ---------------------------------------------- |
-| base_path    | `base_path('/public')`        |                                                |
-| algorithm    | sha256                        | sha256, sha384 and sha512                      |
-| hashes       | `[]`                          | (see "[How to get a hash](#how-to-get-a-hash)) |
-| mix_sri_path | `public_path('mix-sri.json')` | (see "[How to get a hash](#how-to-get-a-hash)) |
-| enabled      | `true`                        |                                                |
+| key                                  | default value                 | possible values                                |
+| ------------------------------------ | ----------------------------- | ---------------------------------------------- |
+| base_path                            | `base_path('/public')`        |                                                |
+| algorithm                            | sha256                        | sha256, sha384 and sha512                      |
+| hashes                               | `[]`                          | (see "[How to get a hash](#how-to-get-a-hash)) |
+| mix_sri_path                         | `public_path('mix-sri.json')` | (see "[How to get a hash](#how-to-get-a-hash)) |
+| enabled                              | `true`                        |                                                |
+| dangerously_allow_third_party_assets | `false`                       |                                                |
 
 ## Usage
 
@@ -59,15 +60,12 @@ To only get a hash, use `Sri::hash`:
 
 To generate the HTML for the `integrity` and the `crossorigin` attributes, use `Sri::html`. It accepts two parameters:
 
-- first one is the path;
-- second one (default is `false`) tells if you want to pass the credentials when fetching the resource.
+-   first one is the path;
+-   second one (default is `false`) tells if you want to pass the credentials when fetching the resource.
 
 ```html
-<link
-    href="{{ asset('css/app.css') }}"
-    rel="stylesheet"
-    {{ Sri::html('css/app.css') }}
->
+<link href="{{ asset('css/app.css') }}" rel="stylesheet" {{
+Sri::html('css/app.css') }} >
 ```
 
 ### Blade directive
