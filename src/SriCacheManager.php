@@ -80,7 +80,7 @@ class SriCacheManager implements SriCacheManagerContract
 
         return $this->files->put(
             $cachePath,
-            '<?php return ' . var_export($this->cacheContents, true) . ';' . PHP_EOL
+            '<?php return '.var_export($this->cacheContents, true).';'.PHP_EOL
         );
     }
 
