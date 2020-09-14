@@ -5,7 +5,7 @@ namespace Elhebert\SubresourceIntegrity\Contracts;
 interface SriCacheManager extends \Psr\SimpleCache\CacheInterface
 {
     /**
-     * Get the path to the sri hash cache file.
+     * Get the path for the sri cache.
      *
      * @return string
      */
