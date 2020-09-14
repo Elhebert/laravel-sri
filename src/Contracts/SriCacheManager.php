@@ -10,11 +10,4 @@ interface SriCacheManager extends \Psr\SimpleCache\CacheInterface
      * @return string
      */
     public function getCachedSriPath();
-
-    /**
-     * Update the cache file.
-     *
-     * @return bool
-     */
-    public function updateCacheFile();
 }

@@ -2,8 +2,6 @@
 
 namespace Elhebert\SubresourceIntegrity\Exceptions;
 
-use Throwable;
-
-class InvalidArgumentException extends Throwable implements \Psr\SimpleCache\InvalidArgumentException
+class InvalidArgumentException extends \Exception implements \Psr\SimpleCache\InvalidArgumentException
 {
 }
