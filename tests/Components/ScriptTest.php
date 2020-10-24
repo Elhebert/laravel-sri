@@ -23,7 +23,7 @@ class ScriptTest extends TestCase
         $this->app->instance('path.public', dirname(__DIR__).'/files');
 
         $view = View::file(dirname(__DIR__).'/files/script.blade.php', ['mix' => false, 'crossOrigin' => 'anonymous'])->render();
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <script src="http://localhost/js/app.js" integrity="this-hash-is-valid" crossorigin="anonymous"  />
         HTML;
 
@@ -43,7 +43,7 @@ class ScriptTest extends TestCase
         $this->app->instance('path.public', dirname(__DIR__).'/files');
 
         $view = View::file(dirname(__DIR__).'/files/script.blade.php', ['mix' => true, 'crossOrigin' => 'anonymous'])->render();
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <script src="/js/app.js?id=some-random-string" integrity="this-hash-is-valid" crossorigin="anonymous"  />
         HTML;
 
@@ -63,7 +63,7 @@ class ScriptTest extends TestCase
         $this->app->instance('path.public', dirname(__DIR__).'/files');
 
         $view = View::file(dirname(__DIR__).'/files/script.blade.php', ['mix' => false, 'crossOrigin' => 'test'])->render();
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <script src="http://localhost/js/app.js" integrity="this-hash-is-valid" crossorigin="test"  />
         HTML;
 
