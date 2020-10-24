@@ -23,7 +23,7 @@ class LinkTest extends TestCase
         $this->app->instance('path.public', dirname(__DIR__).'/files');
 
         $view = View::file(dirname(__DIR__).'/files/link.blade.php', ['mix' => false])->render();
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <link href="http://localhost/css/app.css" integrity="this-hash-is-valid" rel="stylesheet" />
         HTML;
 
@@ -43,7 +43,7 @@ class LinkTest extends TestCase
         $this->app->instance('path.public', dirname(__DIR__).'/files');
 
         $view = View::file(dirname(__DIR__).'/files/link.blade.php', ['mix' => true])->render();
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <link href="/css/app.css?id=some-random-string" integrity="this-hash-is-valid" rel="stylesheet" />
         HTML;
 

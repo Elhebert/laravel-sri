@@ -23,7 +23,7 @@ class ScriptTest extends TestCase
         $this->app->instance('path.public', dirname(__DIR__).'/files');
 
         $view = View::file(dirname(__DIR__).'/files/script.blade.php', ['mix' => false])->render();
-        $expected = <<<HTML
+        $expected = <<<'HTML'
 <script src="http://localhost/js/app.js" integrity="this-hash-is-valid"  />
 HTML;
 
@@ -43,7 +43,7 @@ HTML;
         $this->app->instance('path.public', dirname(__DIR__).'/files');
 
         $view = View::file(dirname(__DIR__).'/files/script.blade.php', ['mix' => true])->render();
-        $expected = <<<HTML
+        $expected = <<<'HTML'
 <script src="/js/app.js?id=some-random-string" integrity="this-hash-is-valid"  />
 HTML;
         $this->assertStringContainsString(
