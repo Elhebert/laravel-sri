@@ -4,7 +4,7 @@ namespace Elhebert\SubresourceIntegrity\Tests;
 
 use Illuminate\Support\Facades\View;
 
-class ScriptComponentTest extends TestCase
+class LinkTest extends TestCase
 {
     protected function tearDown(): void
     {
@@ -20,12 +20,15 @@ class ScriptComponentTest extends TestCase
             'subresource-integrity.mix_sri_path' => './tests/files/mix-sri.json',
         ]);
 
-        $this->app->instance('path.public', __DIR__.'/files');
+        $this->app->instance('path.public', dirname(__DIR__).'/files');
 
-        $view = View::file(__DIR__.'/files/script.blade.php', ['mix' => false])->render();
+        $view = View::file(dirname(__DIR__).'/files/link.blade.php', ['mix' => false])->render();
+        $expected = <<<HTML
+        <link href="http://localhost/css/app.css" integrity="this-hash-is-valid" rel="stylesheet" />
+        HTML;
 
         $this->assertStringContainsString(
-            '<script src="http://localhost/js/app.js" integrity="this-hash-is-valid"  />',
+            $expected,
             $view
         );
     }
@@ -37,12 +40,15 @@ class ScriptComponentTest extends TestCase
             'subresource-integrity.mix_sri_path' => './tests/files/mix-sri.json',
         ]);
 
-        $this->app->instance('path.public', __DIR__.'/files');
+        $this->app->instance('path.public', dirname(__DIR__).'/files');
 
-        $view = View::file(__DIR__.'/files/script.blade.php', ['mix' => true])->render();
+        $view = View::file(dirname(__DIR__).'/files/link.blade.php', ['mix' => true])->render();
+        $expected = <<<HTML
+        <link href="/css/app.css?id=some-random-string" integrity="this-hash-is-valid" rel="stylesheet" />
+        HTML;
 
         $this->assertStringContainsString(
-            '<script src="/js/app.js?id=some-random-string" integrity="this-hash-is-valid"  />',
+            $expected,
             $view
         );
     }
