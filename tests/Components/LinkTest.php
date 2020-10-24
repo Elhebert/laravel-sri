@@ -22,9 +22,9 @@ class LinkTest extends TestCase
 
         $this->app->instance('path.public', dirname(__DIR__).'/files');
 
-        $view = View::file(dirname(__DIR__).'/files/link.blade.php', ['mix' => false])->render();
-        $expected = <<<'HTML'
-        <link href="http://localhost/css/app.css" integrity="this-hash-is-valid" rel="stylesheet" />
+        $view = View::file(dirname(__DIR__).'/files/link.blade.php', ['mix' => false, 'crossOrigin' => null])->render();
+        $expected = <<<HTML
+        <link href="http://localhost/css/app.css" integrity="this-hash-is-valid" crossorigin="anonymous" rel="stylesheet" />
         HTML;
 
         $this->assertStringContainsString(
@@ -42,9 +42,29 @@ class LinkTest extends TestCase
 
         $this->app->instance('path.public', dirname(__DIR__).'/files');
 
-        $view = View::file(dirname(__DIR__).'/files/link.blade.php', ['mix' => true])->render();
-        $expected = <<<'HTML'
-        <link href="/css/app.css?id=some-random-string" integrity="this-hash-is-valid" rel="stylesheet" />
+        $view = View::file(dirname(__DIR__).'/files/link.blade.php', ['mix' => true, 'crossOrigin' => null])->render();
+        $expected = <<<HTML
+        <link href="/css/app.css?id=some-random-string" integrity="this-hash-is-valid" crossorigin="anonymous" rel="stylesheet" />
+        HTML;
+
+        $this->assertStringContainsString(
+            $expected,
+            $view
+        );
+    }
+
+    /** @test */
+    public function it_uses_the_crossorigin_attribute_if_passed()
+    {
+        config([
+            'subresource-integrity.mix_sri_path' => './tests/files/mix-sri.json',
+        ]);
+
+        $this->app->instance('path.public', dirname(__DIR__).'/files');
+
+        $view = View::file(dirname(__DIR__).'/files/link.blade.php', ['mix' => false, 'crossOrigin' => 'test'])->render();
+        $expected = <<<HTML
+        <link href="http://localhost/css/app.css" integrity="this-hash-is-valid" crossorigin="test" rel="stylesheet" />
         HTML;
 
         $this->assertStringContainsString(

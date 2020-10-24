@@ -13,10 +13,14 @@ class Link extends Component
     /** @var bool */
     public $mix = false;
 
-    public function __construct(string $href, bool $mix = false)
+    /** @var string */
+    public $crossorigin = 'anonymous';
+
+    public function __construct(string $href, bool $mix = false, string $crossorigin = 'anonymous')
     {
         $this->href = $href;
         $this->mix = $mix;
+        $this->crossorigin = $crossorigin;
     }
 
     public function integrity(): string
@@ -32,7 +36,9 @@ class Link extends Component
     public function render(): string
     {
         return <<<'blade'
-            <link href="{{ $path() }}" integrity="{{ $integrity() }}" {{ $attributes }} />
+        @once
+        <link href="{{ $path() }}" integrity="{{ $integrity() }}" crossorigin="{{ $crossorigin }}" {{ $attributes }} />
+        @endonce
         blade;
     }
 }

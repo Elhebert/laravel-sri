@@ -13,10 +13,14 @@ class Script extends Component
     /** @var bool */
     public $mix;
 
-    public function __construct(string $src, bool $mix = false)
+    /** @var string */
+    public $crossorigin = 'anonymous';
+
+    public function __construct(string $src, bool $mix = false, string $crossorigin = 'anonymous')
     {
         $this->src = $src;
         $this->mix = $mix;
+        $this->crossorigin = $crossorigin;
     }
 
     public function integrity(): string
@@ -32,7 +36,9 @@ class Script extends Component
     public function render(): string
     {
         return <<<'blade'
-            <script src="{{ $path() }}" integrity="{{ $integrity() }}" {{ $attributes }} />
+        @once
+        <script src="{{ $path() }}" integrity="{{ $integrity() }}" crossorigin="{{ $crossorigin }}" {{ $attributes }} />
+        @endonce
         blade;
     }
 }
