@@ -64,8 +64,11 @@ To generate the HTML for the `integrity` and the `crossorigin` attributes, use `
 -   second one (default is `false`) tells if you want to pass the credentials when fetching the resource.
 
 ```html
-<link href="{{ asset('css/app.css') }}" rel="stylesheet" {{
-Sri::html('css/app.css') }} >
+<link
+    href="{{ asset('css/app.css') }}"
+    rel="stylesheet"
+    {{ Sri::html('css/app.css') }}
+/>
 ```
 
 ### Blade directive
