@@ -39,21 +39,6 @@ class SriCacheManagerTest extends TestCase
     }
 
     /** @test */
-    public function it_generates_cache_file_in_custom_directory()
-    {
-        $_ENV['SRI_CACHE'] = '/custom/cache/file.php';
-
-        $this->sriCache->set('path/to/file', 'some-secret-hash');
-
-        $this->assertEquals('/custom/cache/file.php', $this->sriCache->getCachedSriPath());
-        $this->assertFileExists($this->sriCache->getCachedSriPath());
-
-        $this->app->get('files')->deleteDirectory('/custom/cache/file.php');
-
-        $this->app->get('files')->deleteDirectory('/custom');
-    }
-
-    /** @test */
     public function it_gets_value_from_cache_file()
     {
         $key = 'path/to/file';
