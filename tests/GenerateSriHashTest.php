@@ -70,4 +70,23 @@ class GenerateSriHashTest extends TestCase
 
         $this->assertEquals('', Sri::hash('files/app.css'));
     }
+
+    /** @test */
+    public function it_returns_an_empty_string_when_hashing_third_party_assets()
+    {
+        $this->assertEquals('', Sri::hash('https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.min.js'));
+    }
+
+    /** @test */
+    public function it_can_hash_third_party_assets_when_enabled()
+    {
+        config([
+            'subresource-integrity.dangerously_allow_third_party_assets' => true,
+        ]);
+
+        $hash = hash('sha256', file_get_contents('https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.min.js'), true);
+        $base64Hash = base64_encode($hash);
+
+        $this->assertEquals("sha256-{$base64Hash}", Sri::hash('https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.min.js'));
+    }
 }
