@@ -36,9 +36,7 @@ class Link extends Component
     public function render(): string
     {
         return <<<'blade'
-        @once
         <link href="{{ $path() }}" integrity="{{ $integrity() }}" crossorigin="{{ $crossorigin }}" {{ $attributes }} />
-        @endonce
         blade;
     }
 }
