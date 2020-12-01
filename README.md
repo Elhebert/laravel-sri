@@ -100,7 +100,24 @@ If you add a `mix` attributet to the component it'll use `mix()` instead of `ass
 />
 ```
 
-The Blade components include the `@once` directive to ensure that your tags are only rendered once. This will help with performances as it'll avoid a potential re-hashing of the files (in case you want to hash them on the fly).
+### Improve performance
+
+You should wrap your `<link>` and `<script>` tags with the [`@once`](https://laravel.com/docs/master/blade#the-once-directive) directive to ensure that your tags are only rendered once. This will help with performances as it'll avoid a potential re-hashing of the files (in case you want to hash them on the fly).
+
+Be careful that this should only be use for production as it won't re-render the html tag. Thus preventing new cache busting id to be added to the path by `mix`.
+
+```html
+@once
+<link
+    href="{{ mix('css/app.css') }}"
+    rel="stylesheet"
+    integrity="{{ Sri::hash('css/app.css') }}"
+    crossorigin="anonymous"
+/>
+<!-- Or using the blade component -->
+<x:sri-link mix href="css/app.css" rel="stylesheet" />
+@endonce
+```
 
 ## How to get a hash
 
