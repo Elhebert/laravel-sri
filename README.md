@@ -6,9 +6,10 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/elhebert/laravel-sri.svg?style=flat-square)](https://packagist.org/packages/elhebert/laravel-sri)
 [![Total Downloads](https://img.shields.io/packagist/dt/elhebert/laravel-sri.svg?style=flat-square)](https://packagist.org/packages/elhebert/laravel-sri)
 
-Small Laravel 6+ package that'll generate the integrity hashes for your style and script files.
+Small Laravel 8+ package that'll generate the integrity hashes for your style and script files.
 
 For Laravel 5.5+ support, use the [v1 branch](https://github.com/Elhebert/laravel-sri/tree/v1).
+For Laravel 6+ support, use the [v2 branch](https://github.com/Elhebert/laravel-sri/tree/v2).
 
 ## About Subresources Integrity
 
@@ -36,13 +37,14 @@ php artisan vendor:publish --provider="Elhebert\SubresourceIntegrity\SriServiceP
 
 ### Content of the configuration
 
-| key          | default value                 | possible values                                |
-| ------------ | ----------------------------- | ---------------------------------------------- |
-| base_path    | `base_path('/public')`        |                                                |
-| algorithm    | sha256                        | sha256, sha384 and sha512                      |
-| hashes       | `[]`                          | (see "[How to get a hash](#how-to-get-a-hash)) |
-| mix_sri_path | `public_path('mix-sri.json')` | (see "[How to get a hash](#how-to-get-a-hash)) |
-| enabled      | `true`                        |                                                |
+| key                                  | default value                 | possible values                                |
+| ------------------------------------ | ----------------------------- | ---------------------------------------------- |
+| base_path                            | `base_path('/public')`        |                                                |
+| algorithm                            | sha256                        | sha256, sha384 and sha512                      |
+| hashes                               | `[]`                          | (see "[How to get a hash](#how-to-get-a-hash)) |
+| mix_sri_path                         | `public_path('mix-sri.json')` | (see "[How to get a hash](#how-to-get-a-hash)) |
+| enabled                              | `true`                        |                                                |
+| dangerously_allow_third_party_assets | `false`                       |                                                |
 
 ## Usage
 
@@ -59,31 +61,62 @@ To only get a hash, use `Sri::hash`:
 
 To generate the HTML for the `integrity` and the `crossorigin` attributes, use `Sri::html`. It accepts two parameters:
 
-- first one is the path;
-- second one (default is `false`) tells if you want to pass the credentials when fetching the resource.
+-   first one is the path;
+-   second one (default is `false`) tells if you want to pass the credentials when fetching the resource.
 
 ```html
 <link
     href="{{ asset('css/app.css') }}"
     rel="stylesheet"
     {{ Sri::html('css/app.css') }}
->
+/>
 ```
 
-### Blade directive
+### Blade Component
 
-Two blade directive are available to make your views cleaner:
+Alternatively you can use blade components:
 
-Use `@mixSri` to generate the `<link>` or `<script>` tag with the proper attributes and using the `mix()` helper to generate the asset path:
-
-```php
-@mixSri(string $path, bool $useCredentials = 'false', string $attributes = '')
+```html
+<x:sri-link href="css/app.css" rel="stylesheet" />
+<!-- is the equivalent of doing -->
+<link
+    href="{{ asset('css/app.css') }}"
+    rel="stylesheet"
+    integrity="{{ Sri::hash('css/app.css') }}"
+    crossorigin="anonymous"
+/>
 ```
 
-Use `@assetSri` to generate the `<link>` or `<script>` tag with the proper attributes and using the `asset()` helper to generate the asset path:
+If you add a `mix` attributet to the component it'll use `mix()` instead of `asset()` to generate the link to the assets:
 
-```php
-@assetSri(string $path, bool $useCredentials = 'false', string $attributes = '')
+```html
+<x:sri-link mix href="css/app.css" rel="stylesheet" />
+<!-- is the equivalent of doing -->
+<link
+    href="{{ mix('css/app.css') }}"
+    rel="stylesheet"
+    integrity="{{ Sri::hash('css/app.css') }}"
+    crossorigin="anonymous"
+/>
+```
+
+### Improve performance
+
+You should wrap your `<link>` and `<script>` tags with the [`@once`](https://laravel.com/docs/master/blade#the-once-directive) directive to ensure that your tags are only rendered once. This will help with performances as it'll avoid a potential re-hashing of the files (in case you want to hash them on the fly).
+
+Be careful that this should only be use for production as it won't re-render the html tag. Thus preventing new cache busting id to be added to the path by `mix`.
+
+```html
+@once
+<link
+    href="{{ mix('css/app.css') }}"
+    rel="stylesheet"
+    integrity="{{ Sri::hash('css/app.css') }}"
+    crossorigin="anonymous"
+/>
+<!-- Or using the blade component -->
+<x:sri-link mix href="css/app.css" rel="stylesheet" />
+@endonce
 ```
 
 ## How to get a hash
@@ -136,6 +169,9 @@ This package also work for remote resources. Be careful that resources like Goog
     integrity="{{ Sri::hash('http://code.jquery.com/jquery-3.3.1.min.js') }}"
     crossorigin="anonymous"
 ></script>
+
+<!-- or with a blade component -->
+<x:sri-script src="http://code.jquery.com/jquery-3.3.1.min.js"></x:sri-script>
 ```
 
 ## Contributing
