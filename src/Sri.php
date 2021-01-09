@@ -12,14 +12,18 @@ class Sri
     /** @var string */
     private $algorithm;
 
+    /** @var \Elhebert\SubresourceIntegrity\Contracts\SriCacheManager */
+    protected $sriCache;
+
     /** @var string */
     private $jsonFilePath;
 
-    public function __construct(string $algorithm)
+    public function __construct(string $algorithm, SriCacheManager $sriCache)
     {
         $this->algorithm = in_array($algorithm, ['sha256', 'sha384', 'sha512'])
             ? $algorithm
             : 'sha256';
+        $this->sriCache = $sriCache;
         $this->jsonFilePath = config('subresource-integrity.mix_sri_path');
     }
 
