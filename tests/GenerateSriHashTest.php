@@ -2,7 +2,10 @@
 
 namespace Elhebert\SubresourceIntegrity\Tests;
 
-use Elhebert\SubresourceIntegrity\SriFacade as Sri;
+use Elhebert\SubresourceIntegrity\SriCacheManager;
+use Elhebert\SubresourceIntegrity\Sri;
+use Elhebert\SubresourceIntegrity\SriFacade;
+use Mockery;
 
 class GenerateSriHashTest extends TestCase
 {
@@ -10,7 +13,7 @@ class GenerateSriHashTest extends TestCase
     public function it_throws_an_exception_if_has_no_content()
     {
         $this->expectExceptionMessage('file not found');
-        Sri::hash('');
+        SriFacade::hash('');
     }
 
     /** @test */
@@ -19,7 +22,7 @@ class GenerateSriHashTest extends TestCase
         $hash = hash('sha256', file_get_contents('./tests/files/app.css'), true);
         $base64Hash = base64_encode($hash);
 
-        $this->assertEquals("sha256-{$base64Hash}", Sri::hash('files/app.css'));
+        $this->assertEquals("sha256-{$base64Hash}", SriFacade::hash('files/app.css'));
     }
 
     /** @test */
@@ -32,7 +35,7 @@ class GenerateSriHashTest extends TestCase
         $hash = hash('sha256', file_get_contents('./tests/files/app.css'), true);
         $base64Hash = base64_encode($hash);
 
-        $this->assertStringContainsString('sha256', Sri::hash('files/app.css', true));
+        $this->assertStringContainsString('sha256', SriFacade::hash('files/app.css', true));
     }
 
     /** @test */
@@ -45,7 +48,7 @@ class GenerateSriHashTest extends TestCase
         $hash = hash('sha384', file_get_contents('./tests/files/app.css'), true);
         $base64Hash = base64_encode($hash);
 
-        $this->assertEquals("sha384-{$base64Hash}", Sri::hash('files/app.css'));
+        $this->assertEquals("sha384-{$base64Hash}", SriFacade::hash('files/app.css'));
     }
 
     /** @test */
@@ -58,7 +61,7 @@ class GenerateSriHashTest extends TestCase
         $hash = hash('sha512', file_get_contents('./tests/files/app.css'), true);
         $base64Hash = base64_encode($hash);
 
-        $this->assertEquals("sha512-{$base64Hash}", Sri::hash('files/app.css'));
+        $this->assertEquals("sha512-{$base64Hash}", SriFacade::hash('files/app.css'));
     }
 
     /** @test */
@@ -68,13 +71,54 @@ class GenerateSriHashTest extends TestCase
             'subresource-integrity.enabled' => false,
         ]);
 
-        $this->assertEquals('', Sri::hash('files/app.css'));
+        $this->assertEquals('', SriFacade::hash('files/app.css'));
+    }
+
+    /** @test */
+    public function it_caches_computed_hash()
+    {
+        $hash = hash('sha256', file_get_contents('./tests/files/app.css'), true);
+        $base64Hash = base64_encode($hash);
+
+        $sriCache = Mockery::mock(SriCacheManager::class);
+
+        $sriCache->shouldReceive('set')->once();
+        $sriCache->shouldReceive('get')->once()->andReturnNull();
+
+        $sri = new Sri(
+            config('subresource-integrity.algorithm'),
+            $sriCache
+        );
+
+        $this->assertEquals("sha256-{$base64Hash}", $sri->hash('files/app.css'));
+    }
+
+    /** @test */
+    public function it_gets_cached_hash_when_existing()
+    {
+        $hash = hash('sha256', file_get_contents('./tests/files/app.css'), true);
+        $base64Hash = base64_encode($hash);
+
+        $sriCache = Mockery::mock(SriCacheManager::class);
+
+        $sriCache->shouldReceive('set')->once();
+        $sriCache->shouldReceive('get')->once()->andReturnNull();
+        $sriCache->shouldReceive('get')->once()->andReturn("sha256-{$base64Hash}");
+
+        $sri = new Sri(
+            config('subresource-integrity.algorithm'),
+            $sriCache
+        );
+
+        $this->assertEquals("sha256-{$base64Hash}", $sri->hash('files/app.css'));
+
+        $this->assertEquals("sha256-{$base64Hash}", $sri->hash('files/app.css'));
     }
 
     /** @test */
     public function it_returns_an_empty_string_when_hashing_third_party_assets()
     {
-        $this->assertEquals('', Sri::hash('https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.min.js'));
+        $this->assertEquals('', SriFacade::hash('https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.min.js'));
     }
 
     /** @test */
@@ -87,6 +131,6 @@ class GenerateSriHashTest extends TestCase
         $hash = hash('sha256', file_get_contents('https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.min.js'), true);
         $base64Hash = base64_encode($hash);
 
-        $this->assertEquals("sha256-{$base64Hash}", Sri::hash('https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.min.js'));
+        $this->assertEquals("sha256-{$base64Hash}", SriFacade::hash('https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.min.js'));
     }
 }
