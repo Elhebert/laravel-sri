@@ -23,6 +23,8 @@ jobs:
                       testbench: 5.*
                     - laravel: 6.*
                       testbench: 4.*
+                    - php: 8.0
+                      mockery: "mockery/mockery:^1.4.1"
 
         name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency }}
 
@@ -45,7 +47,7 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  composer require "illuminate/support:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+                  composer require "illuminate/support:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" ${{ matrix.mockery}} --no-interaction --no-update
                   composer update --${{ matrix.dependency }} --prefer-dist --no-interaction --no-suggest
 
             - name: Execute tests
