@@ -10,6 +10,8 @@ Small Laravel 6+ package that'll generate the integrity hashes for your style an
 
 For Laravel 5.5+ support, use the [v1 branch](https://github.com/Elhebert/laravel-sri/tree/v1).
 
+For Laravel 8+ support, use the [master branch](https://github.com/Elhebert/laravel-sri).
+
 ## About Subresources Integrity
 
 From [MDN](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity):
@@ -24,7 +26,7 @@ Troy Hunt wrote an article speaking on the subject, you can read it [here](https
 composer require elhebert/laravel-sri
 ```
 
-This package uses [auto-discovery](https://laravel.com/docs/5.5/packages#package-discovery), so you don't have to do anything. It works out of the box.
+This package uses [auto-discovery](https://laravel.com/docs/6.x/packages#package-discovery), so you don't have to do anything. It works out of the box.
 
 ## Config
 
