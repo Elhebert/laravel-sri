@@ -36,7 +36,7 @@ class Script extends Component
     public function render(): string
     {
         return <<<'blade'
-        <script src="{{ $path() }}" integrity="{{ $integrity() }}" crossorigin="{{ $crossorigin }}" {{ $attributes }} />
+        <script src="{{ $path() }}" integrity="{{ $integrity() }}" crossorigin="{{ $crossorigin }}" {{ $attributes }}></script>
         blade;
     }
 }
