@@ -24,7 +24,7 @@ class ScriptTest extends TestCase
 
         $view = View::file(dirname(__DIR__).'/files/script.blade.php', ['mix' => false, 'crossOrigin' => 'anonymous'])->render();
         $expected = <<<'HTML'
-        <script src="http://localhost/js/app.js" integrity="this-hash-is-valid" crossorigin="anonymous"  />
+        <script src="http://localhost/js/app.js" integrity="this-hash-is-valid" crossorigin="anonymous" ></script>
         HTML;
 
         $this->assertStringContainsString(
@@ -44,7 +44,7 @@ class ScriptTest extends TestCase
 
         $view = View::file(dirname(__DIR__).'/files/script.blade.php', ['mix' => true, 'crossOrigin' => 'anonymous'])->render();
         $expected = <<<'HTML'
-        <script src="/js/app.js?id=some-random-string" integrity="this-hash-is-valid" crossorigin="anonymous"  />
+        <script src="/js/app.js?id=some-random-string" integrity="this-hash-is-valid" crossorigin="anonymous" ></script>
         HTML;
 
         $this->assertStringContainsString(
@@ -64,7 +64,7 @@ class ScriptTest extends TestCase
 
         $view = View::file(dirname(__DIR__).'/files/script.blade.php', ['mix' => false, 'crossOrigin' => 'test'])->render();
         $expected = <<<'HTML'
-        <script src="http://localhost/js/app.js" integrity="this-hash-is-valid" crossorigin="test"  />
+        <script src="http://localhost/js/app.js" integrity="this-hash-is-valid" crossorigin="test" ></script>
         HTML;
 
         $this->assertStringContainsString(
