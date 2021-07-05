@@ -2,6 +2,7 @@
 
 namespace Elhebert\SubresourceIntegrity;
 
+use Elhebert\SubresourceIntegrity\Contracts\SriCacheManager;
 use Exception;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
@@ -11,14 +12,18 @@ class Sri
     /** @var string */
     private $algorithm;
 
+    /** @var \Elhebert\SubresourceIntegrity\Contracts\SriCacheManager */
+    protected $sriCache;
+
     /** @var string */
     private $jsonFilePath;
 
-    public function __construct(string $algorithm)
+    public function __construct(string $algorithm, SriCacheManager $sriCache)
     {
         $this->algorithm = in_array($algorithm, ['sha256', 'sha384', 'sha512'])
             ? $algorithm
             : 'sha256';
+        $this->sriCache = $sriCache;
         $this->jsonFilePath = config('subresource-integrity.mix_sri_path');
     }
 
@@ -62,10 +67,18 @@ class Sri
             }
         }
 
+        if ($integrity = $this->sriCache->get($path)) {
+            return $integrity;
+        }
+
         $hash = hash($this->algorithm, $this->getFileContent($path), true);
         $base64Hash = base64_encode($hash);
 
-        return "{$this->algorithm}-{$base64Hash}";
+        $integrity = "{$this->algorithm}-{$base64Hash}";
+
+        $this->sriCache->set($path, $integrity);
+
+        return $integrity;
     }
 
     private function existsInConfigFile(string $path): bool

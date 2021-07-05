@@ -22,4 +22,11 @@ abstract class TestCase extends Orchestra
             'subresource-integrity.base_path' => './tests/',
         ]);
     }
+
+    protected function tearDown(): void
+    {
+        $this->artisan('sri:clear');
+
+        parent::tearDown();
+    }
 }
