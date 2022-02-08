@@ -77,7 +77,7 @@ To generate the HTML for the `integrity` and the `crossorigin` attributes, use `
 Alternatively you can use blade components:
 
 ```html
-<x:sri-link href="css/app.css" rel="stylesheet" />
+<x:sri.link href="css/app.css" rel="stylesheet" />
 <!-- is the equivalent of doing -->
 <link
     href="{{ asset('css/app.css') }}"
@@ -90,7 +90,7 @@ Alternatively you can use blade components:
 If you add a `mix` attributet to the component it'll use `mix()` instead of `asset()` to generate the link to the assets:
 
 ```html
-<x:sri-link mix href="css/app.css" rel="stylesheet" />
+<x:sri.link mix href="css/app.css" rel="stylesheet" />
 <!-- is the equivalent of doing -->
 <link
     href="{{ mix('css/app.css') }}"
@@ -115,7 +115,7 @@ Be careful that this should only be use for production as it won't re-render the
     crossorigin="anonymous"
 />
 <!-- Or using the blade component -->
-<x:sri-link mix href="css/app.css" rel="stylesheet" />
+<x:sri.link mix href="css/app.css" rel="stylesheet" />
 @endonce
 ```
 
@@ -171,7 +171,7 @@ This package also work for remote resources. Be careful that resources like Goog
 ></script>
 
 <!-- or with a blade component -->
-<x:sri-script src="http://code.jquery.com/jquery-3.3.1.min.js"></x:sri-script>
+<x:sri.script src="http://code.jquery.com/jquery-3.3.1.min.js"></x:sri-script>
 ```
 
 ## Contributing
