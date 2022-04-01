@@ -64,7 +64,7 @@ class Sri
 
         return $this->generateHash($this->getFileContent($path));
     }
-    
+
     public function generateHash(string $content): string
     {
         $hash = hash($this->algorithm, $content, true);
