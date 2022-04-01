@@ -62,7 +62,12 @@ class Sri
             }
         }
 
-        $hash = hash($this->algorithm, $this->getFileContent($path), true);
+        return $this->generateHash($this->getFileContent($path));
+    }
+    
+    public function generateHash(string $content): string
+    {
+        $hash = hash($this->algorithm, $content, true);
         $base64Hash = base64_encode($hash);
 
         return "{$this->algorithm}-{$base64Hash}";
