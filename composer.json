@@ -14,10 +14,10 @@
     ],
     "require": {
         "php": "^7.3 | ^7.4 | ^8.0",
-        "illuminate/support": "^8.71 | ^9.0"
+        "illuminate/support": "^8.71 | ^9.0 | ^10.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.23 | ^7.0",
+        "orchestra/testbench": "^6.23 | ^7.0 | ^8.0",
         "phpunit/phpunit": "^9.5.10",
         "mockery/mockery": "^1.4.4"
     },
