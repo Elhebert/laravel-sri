@@ -1,4 +1,4 @@
-name: Run PHPUnit tests L8.*
+name: Run PHPUnit tests  L11.*
 
 on:
     push:
@@ -15,12 +15,12 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php: [7.3, 7.4, 8.0, 8.1]
-                laravel: [8.*]
+                php: [8.2, 8.3]
+                laravel: [11.*]
                 dependency: [prefer-lowest, prefer-stable]
                 include:
-                    - laravel: 8.*
-                      testbench: ^6.23
+                    - laravel: 11.*
+                      testbench: 9.*
 
         name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency }}
 
@@ -43,8 +43,8 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  composer require "illuminate/support:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update --no-progress
-                  composer update --${{ matrix.dependency }} --prefer-dist --no-interaction --no-suggest --no-progress
+                  composer require "illuminate/support:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+                  composer update --${{ matrix.dependency }} --prefer-dist --no-interaction --no-suggest
 
             - name: Execute tests
               run: vendor/bin/phpunit
