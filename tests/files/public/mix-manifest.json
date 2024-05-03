@@ -1,0 +1,4 @@
+{
+    "/css/app.css" : "/css/app.css?id=some-random-string",
+    "/js/app.js" : "/js/app.js?id=some-random-string"
+}

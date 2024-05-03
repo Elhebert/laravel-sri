@@ -6,6 +6,11 @@ use Illuminate\Support\Facades\View;
 
 class ScriptTest extends TestCase
 {
+    protected function getEnvironmentSetUp($app)
+    {
+        $app->setBasePath(dirname(__DIR__) . '/files');
+    }
+
     protected function tearDown(): void
     {
         $this->artisan('view:clear');
