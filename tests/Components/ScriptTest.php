@@ -8,7 +8,7 @@ class ScriptTest extends TestCase
 {
     protected function getEnvironmentSetUp($app)
     {
-        $app->setBasePath(dirname(__DIR__) . '/files');
+        $app->setBasePath(dirname(__DIR__).'/files');
     }
 
     protected function tearDown(): void
