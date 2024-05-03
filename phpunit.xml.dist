@@ -12,7 +12,7 @@
     processIsolation="false"
     stopOnFailure="false"
     xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
-  <coverage>
+  <!--<coverage>
     <include>
       <directory suffix=".php">src/</directory>
     </include>
@@ -21,7 +21,7 @@
       <html outputDirectory="build/coverage"/>
       <text outputFile="build/coverage.txt"/>
     </report>
-  </coverage>
+  </coverage>-->
   <testsuites>
     <testsuite name="Sri test suite">
       <directory>tests</directory>
