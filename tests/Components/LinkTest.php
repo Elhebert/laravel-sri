@@ -6,6 +6,15 @@ use Illuminate\Support\Facades\View;
 
 class LinkTest extends TestCase
 {
+    protected function getEnvironmentSetUp($app)
+    {
+        if (method_exists($app, 'usePublicPath')) {
+            $app->usePublicPath(dirname(__DIR__).'/files');
+        } else {
+            $app->instance('path.public', dirname(__DIR__).'/files');
+        }
+    }
+
     protected function tearDown(): void
     {
         $this->artisan('view:clear');
@@ -19,8 +28,6 @@ class LinkTest extends TestCase
         config([
             'subresource-integrity.mix_sri_path' => './tests/files/mix-sri.json',
         ]);
-
-        $this->app->instance('path.public', dirname(__DIR__).'/files');
 
         $view = View::file(dirname(__DIR__).'/files/link.blade.php', ['mix' => false, 'crossOrigin' => null])->render();
         $expected = <<<'HTML'
@@ -40,8 +47,6 @@ class LinkTest extends TestCase
             'subresource-integrity.mix_sri_path' => './tests/files/mix-sri.json',
         ]);
 
-        $this->app->instance('path.public', dirname(__DIR__).'/files');
-
         $view = View::file(dirname(__DIR__).'/files/link.blade.php', ['mix' => true, 'crossOrigin' => null])->render();
         $expected = <<<'HTML'
         <link href="/css/app.css?id=some-random-string" integrity="this-hash-is-valid" crossorigin="anonymous" rel="stylesheet" />
@@ -59,8 +64,6 @@ class LinkTest extends TestCase
         config([
             'subresource-integrity.mix_sri_path' => './tests/files/mix-sri.json',
         ]);
-
-        $this->app->instance('path.public', dirname(__DIR__).'/files');
 
         $view = View::file(dirname(__DIR__).'/files/link.blade.php', ['mix' => false, 'crossOrigin' => 'test'])->render();
         $expected = <<<'HTML'

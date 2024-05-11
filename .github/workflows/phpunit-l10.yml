@@ -46,5 +46,8 @@ jobs:
                   composer require "illuminate/support:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update --no-progress
                   composer update --${{ matrix.dependency }} --prefer-dist --no-interaction --no-suggest --no-progress
 
+            - name: Migrate configuration file
+              run: vendor/bin/phpunit --migrate-configuration || true
+
             - name: Execute tests
               run: vendor/bin/phpunit
