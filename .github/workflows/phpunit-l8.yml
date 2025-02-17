@@ -1,50 +1,61 @@
 name: Run PHPUnit tests L8.*
 
 on:
-    push:
-        branches:
-            - master
-    pull_request:
-        branches:
-            - master
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
-    tests:
-        runs-on: ubuntu-latest
+  tests:
+    runs-on: ubuntu-latest
 
-        strategy:
-            fail-fast: false
-            matrix:
-                php: [7.3, 7.4, 8.0, 8.1]
-                laravel: [8.*]
-                dependency: [prefer-lowest, prefer-stable]
-                include:
-                    - laravel: 8.*
-                      testbench: ^6.23
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [7.3, 7.4, 8.0, 8.1, '8.2', '8.3', '8.4']
+        laravel: ['8.*', '12.*']
+        dependency: [prefer-lowest, prefer-stable]
+        include:
+          - laravel: 8.*
+            testbench: ^6.23
+          - laravel: 12.*
+            testbench: ^10.0
+        exclude:
+          - laravel: 12.*
+            php: 7.3
+          - laravel: 12.*
+            php: 7.4
+          - laravel: 12.*
+            php: 8.0
+          - laravel: 12.*
+            php: 8.1
 
-        name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency }}
+    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency }}
 
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v3
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-            - name: Cache dependencies
-              uses: actions/cache@v3
-              with:
-                  path: ~/.composer/cache/files
-                  key: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.composer/cache/files
+          key: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
 
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: ${{ matrix.php }}
-                  extensions: dom, curl, libxml, mbstring, pcntl, intl, exif, iconv
-                  coverage: none
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, pcntl, intl, exif, iconv
+          coverage: none
 
-            - name: Install dependencies
-              run: |
-                  composer require "illuminate/support:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update --no-progress
-                  composer update --${{ matrix.dependency }} --prefer-dist --no-interaction --no-suggest --no-progress
+      - name: Install dependencies
+        run: |
+          composer require "illuminate/support:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update --no-progress
+          composer update --${{ matrix.dependency }} --prefer-dist --no-interaction --no-suggest --no-progress
 
-            - name: Execute tests
-              run: vendor/bin/phpunit
+      - name: Execute tests
+        run: vendor/bin/phpunit
