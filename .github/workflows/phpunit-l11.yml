@@ -1,53 +1,55 @@
 name: Run PHPUnit tests  L11.*
 
 on:
-    push:
-        branches:
-            - master
-    pull_request:
-        branches:
-            - master
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
-    tests:
-        runs-on: ubuntu-latest
+  tests:
+    runs-on: ubuntu-latest
 
-        strategy:
-            fail-fast: false
-            matrix:
-                php: [8.2, 8.3]
-                laravel: [11.*]
-                dependency: [prefer-lowest, prefer-stable]
-                include:
-                    - laravel: 11.*
-                      testbench: 9.*
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [8.2, 8.3]
+        laravel: ['11.*', '12.*']
+        dependency: [prefer-lowest, prefer-stable]
+        include:
+          - laravel: 11.*
+            testbench: 9.*
+          - laravel: 12.*
+            testbench: 10.*
 
-        name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency }}
+    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency }}
 
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v3
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-            - name: Cache dependencies
-              uses: actions/cache@v3
-              with:
-                  path: ~/.composer/cache/files
-                  key: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.composer/cache/files
+          key: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
 
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: ${{ matrix.php }}
-                  extensions: dom, curl, libxml, mbstring, pcntl, intl, exif, iconv
-                  coverage: none
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, pcntl, intl, exif, iconv
+          coverage: none
 
-            - name: Install dependencies
-              run: |
-                  composer require "illuminate/support:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
-                  composer update --${{ matrix.dependency }} --prefer-dist --no-interaction --no-suggest
+      - name: Install dependencies
+        run: |
+          composer require "illuminate/support:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+          composer update --${{ matrix.dependency }} --prefer-dist --no-interaction --no-suggest
 
-            - name: Migrate configuration file
-              run: vendor/bin/phpunit --migrate-configuration
+      - name: Migrate configuration file
+        run: vendor/bin/phpunit --migrate-configuration
 
-            - name: Execute tests
-              run: vendor/bin/phpunit
+      - name: Execute tests
+        run: vendor/bin/phpunit
